@@ -1,2 +1,8 @@
+from src.gui import create_gui
+
+
 def main():
-    print("slay")
+    create_gui()
+
+if __name__ == '__main__':
+    main()
