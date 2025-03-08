@@ -2,6 +2,9 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QLineEdit, QFileDialog, QMessageBox
 from PyQt5.QtGui import QIcon
 
+from key_generation import key_generator
+
+
 def create_gui():
     app = QApplication(sys.argv)
     window = QWidget()
@@ -34,7 +37,7 @@ def create_gui():
         nonlocal pin
         pin = pin_input.text()
         if pin and selected_folder:
-            # TODO: add rsa generation function
+            key_generator(pin, selected_folder)
             print(f"Generowanie kluczy RSA z PIN-em: {pin}")
             QMessageBox.information(window, "Sukces", f"Klucze RSA zostały wygenerowane w folderze: {selected_folder}")
         else:
