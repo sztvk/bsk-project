@@ -36,6 +36,11 @@ def create_gui():
     def generate_rsa():
         nonlocal pin
         pin = pin_input.text()
+
+        if not pin.isdigit():
+            QMessageBox.warning(window, "Błąd", "PIN musi składać się tylko z cyfr.")
+            return
+
         if pin and selected_folder:
             key_generator(pin, selected_folder)
             print(f"Generowanie kluczy RSA z PIN-em: {pin}")
