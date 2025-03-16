@@ -6,7 +6,7 @@ from Crypto.Util.Padding import unpad
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes, serialization
 
-from src.verify_signature import verify_signature
+from src.find_keys import find_private_key
 
 RANDOM_BYTES_NUMBER = 16
 
@@ -31,7 +31,7 @@ def decrypt_private_key(encrypted_key_path, pin):
 
 
 def sign_pdf(usb_path, pdf_path, pin):
-    encrypted_key_path = os.path.join(usb_path, "encrypted_private_key.pk")
+    encrypted_key_path = find_private_key(usb_path)
     if not os.path.exists(encrypted_key_path):
         raise FileNotFoundError("Nie znaleziono klucza prywatnego na pendrive.")
 
@@ -67,20 +67,3 @@ def sign_pdf(usb_path, pdf_path, pin):
     print(f"Plik PDF został podpisany i zapisany jako {output_pdf_path}")
 
     return output_pdf_path
-
-
-def main():
-    pin = input("Podaj PIN: ")
-    private_key_path = input("Podaj ścieżkę do klucza prywatnego: ")
-    pendrive_path = input("Podaj ścieżkę do pendrive: ")
-    pdf_path = input("Podaj ścieżkę do pliku pdf, który chcesz podpisać: ")
-    public_key_path = input("Podaj ścieżkę do klucza publicznego: ")
-
-    decrypt_private_key(private_key_path, pin)
-    signed_pdf_path = sign_pdf(pendrive_path, pdf_path, pin)
-
-    verify_signature(signed_pdf_path, public_key_path)
-
-
-if __name__ == '__main__':
-    main()
