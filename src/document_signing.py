@@ -3,6 +3,7 @@ import os
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from Crypto.Util.Padding import unpad
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes, serialization
 
@@ -36,7 +37,15 @@ def sign_pdf(usb_path, pdf_path, pin):
         raise FileNotFoundError("Nie znaleziono klucza prywatnego na pendrive.")
 
     private_key = decrypt_private_key(encrypted_key_path, pin)
-    output_pdf_path = os.path.join(usb_path, "signed_document.pdf")
+
+    save_file_dialog = QFileDialog()
+    save_file_dialog.setDefaultSuffix('pdf')
+    output_pdf_path, _ = save_file_dialog.getSaveFileName(
+        None, 'Zapisz podpisany plik PDF', '', 'PDF Files (*.pdf)')
+
+    if not output_pdf_path:
+        QMessageBox.warning(None, 'Błąd', 'Nie wybrano ścieżki zapisu.')
+        return None
 
     with open(pdf_path, "rb") as f:
         pdf_data = f.read()
