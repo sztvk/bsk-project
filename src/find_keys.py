@@ -1,25 +1,24 @@
 import os
 
 
-def find_keys(directory):
-    public_key_path = None
-    encrypted_private_key_path = None
-
+def find_public_key(directory):
     for root, _, files in os.walk(directory):
         if "public_key.pubk" in files:
-            public_key_path = os.path.join(root, "public_key.pubk")
+            return os.path.join(root, "public_key.pubk")
+    return None
+
+
+def find_private_key(directory):
+    for root, _, files in os.walk(directory):
         if "encrypted_private_key.pk" in files:
-            encrypted_private_key_path = os.path.join(root, "encrypted_private_key.pk")
-
-        if public_key_path and encrypted_private_key_path:
-            break
-
-    return public_key_path, encrypted_private_key_path
+            return os.path.join(root, "encrypted_private_key.pk")
+    return None
 
 
 def main():
     directory = input("Ścieżka pendrive: ")
-    public_key, private_key = find_keys(directory)
+    public_key = find_public_key(directory)
+    private_key = find_private_key(directory)
     print(public_key, private_key)
 
 
