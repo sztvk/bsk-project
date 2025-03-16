@@ -7,6 +7,20 @@ from key_generation import key_generator
 
 
 def create_gui():
+    """
+    Creates the graphical user interface (GUI) for the RSA key generation application.
+    It allows the user to select a folder, enter a PIN, and generate RSA keys.
+
+    The GUI includes the following components:
+    - A folder selection dialog for saving the keys.
+    - A PIN input field for entering a security PIN.
+    - A button to trigger the RSA key generation process.
+    - A status label to display messages to the user.
+
+    Returns
+    -------
+    None
+    """
     app = QApplication(sys.argv)
     window = QWidget()
 
@@ -18,12 +32,20 @@ def create_gui():
     pin = ""
 
     def select_folder():
+        """
+        Opens a folder dialog for the user to select the directory to save the generated keys.
+        Updates the folder label and status label based on user selection.
+
+        Returns
+        -------
+        None
+        """
         nonlocal selected_folder
         folder_path = QFileDialog.getExistingDirectory(window, 'Wybierz folder do zapisania kluczy', '')
         if folder_path:
             selected_folder = folder_path
             folder_label.setText(f"Ścieżka wybranego folderu: {folder_path}")
-            folder_label.setStyleSheet("""
+            folder_label.setStyleSheet(""" 
                 QLabel {
                     font-family: 'Verdana', sans-serif;
                     font-size: 14px;
@@ -47,6 +69,17 @@ def create_gui():
             """)
 
     def generate_rsa():
+        """
+        Generates RSA keys using the provided PIN and saves them to the selected folder.
+        Validates user input, including checking if the PIN is a valid numeric value and if a folder is selected.
+
+        If the key generation process is successful, the status label is updated to inform the user.
+        If there is an error, an error message is displayed.
+
+        Returns
+        -------
+        None
+        """
         nonlocal pin
         pin = pin_input.text()
 
@@ -139,7 +172,6 @@ def create_gui():
                     margin-top: 10px;
                 }
             """)
-
 
     layout = QVBoxLayout()
 

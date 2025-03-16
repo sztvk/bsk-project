@@ -11,6 +11,21 @@ from src.verify_signature import verify_signature
 
 
 def create_gui():
+    """
+    Creates and runs the main window of the GUI application.
+
+    This function sets up the user interface, including all widgets and event handling logic for file selection,
+    USB drive detection, document signing, and signature verification. The application allows the user to choose a PDF
+    file and a USB device, and then sign or verify a document.
+
+    Parameters
+    ----------
+    None.
+
+    Returns
+    -------
+    None.
+    """
     app = QApplication(sys.argv)
     window = QWidget()
 
@@ -41,6 +56,20 @@ def create_gui():
     """)
 
     def select_file():
+        """
+        Opens a dialog to select a PDF file and displays its path in the widget.
+
+        This function allows the user to choose a PDF file, and then updates the file preview widget and the status in the GUI.
+        Once both a file and a USB drive are selected, the user can sign or verify the document.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        None.
+        """
         file_dialog = QFileDialog()
         file_path, _ = file_dialog.getOpenFileName(window, 'Wybierz plik PDF', '', 'PDF Files (*.pdf)')
         if file_path:
@@ -89,6 +118,22 @@ def create_gui():
     button_refresh_usb = QPushButton('🔄 Odśwież listę USB', window)
 
     def refresh_usb():
+        """
+        Refreshes the list of detected USB devices.
+
+        This function searches for connected USB devices and updates the list in the user interface. It provides status updates
+        to the user, indicating whether devices were detected or if no devices were found. If devices are detected, the user
+        can select one from the list, which will then enable the functionality to sign or verify the document.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        None.
+        """
+
         status_label.setText("Wyszukiwanie nośników USB...")
         status_label.setStyleSheet("""
             font-family: 'Verdana', sans-serif;
@@ -143,6 +188,20 @@ def create_gui():
     button_verify_signature.setVisible(False)
 
     def on_item_clicked():
+        """
+        Handles the selection of a USB device from the list.
+
+        This function sets the selected USB device and updates the interface widgets, including enabling the buttons for
+        signing and verifying the document. The status is also updated based on the selection.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        None.
+        """
         window.selected_pendrive = usb_list.currentItem().text()
 
         if window.selected_file and window.selected_pendrive:
@@ -191,6 +250,20 @@ def create_gui():
     usb_list.itemClicked.connect(on_item_clicked)
 
     def sign_document():
+        """
+        Handles the document signing process.
+
+        This function opens a dialog to input the PIN, then processes the selected PDF file using the private key from the
+        selected USB device. The user interface status is updated during the signing process.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        None.
+        """
         pin, ok = QInputDialog.getText(window, 'Wprowadź PIN', 'Podaj PIN do klucza:')
 
         if ok and pin:
@@ -263,6 +336,20 @@ def create_gui():
     button_sign_document.clicked.connect(sign_document)
 
     def signature_verification():
+        """
+        Handles the document signature verification process.
+
+        This function verifies the electronic signature in the selected PDF document. The result of the verification is displayed
+        on the user interface. It returns a message indicating whether the verification was successful or failed.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        None.
+        """
         try:
             status_label.setText("Weryfikacja podpisu...")
             status_label.setStyleSheet("""

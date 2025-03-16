@@ -5,6 +5,22 @@ from cryptography.hazmat.primitives import hashes, serialization
 
 
 def verify_signature(pdf_path, public_key_path):
+    """
+    Verify the digital signature of a PDF file using the provided public key.
+
+    Parameters
+    ----------
+    pdf_path : str
+        The file path to the PDF document that contains the signature.
+    public_key_path : str
+        The file path to the PEM encoded public key.
+
+    Returns
+    -------
+    str
+        A message indicating whether the signature is valid or not.
+    """
+
     with open(public_key_path, 'rb') as key_file:
         public_key = serialization.load_pem_public_key(key_file.read())
 

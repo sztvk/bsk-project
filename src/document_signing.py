@@ -13,6 +13,32 @@ RANDOM_BYTES_NUMBER = 16
 
 
 def decrypt_private_key(encrypted_key_path, pin):
+    """
+    Decrypts a private key that has been encrypted using AES encryption with a PIN.
+
+    This function reads the encrypted private key from the specified file, extracts the initialization vector (IV)
+    and encrypted key data, and then decrypts the key using the AES algorithm. The PIN is hashed using SHA256 to
+    generate the encryption key. If the decryption is successful, the private key is returned.
+
+    If the provided PIN is incorrect, a `ValueError` is raised.
+
+    Parameters
+    ----------
+    encrypted_key_path : str
+        The path to the file containing the encrypted private key.
+    pin : str
+        The PIN used to decrypt the private key.
+
+    Returns
+    -------
+    private_key : RSA key
+        The decrypted private key.
+
+    Raises
+    ------
+    ValueError
+        If the PIN is incorrect or the decryption fails.
+    """
     with open(encrypted_key_path, "rb") as key_file:
         encrypted_data = key_file.read()
         iv, encrypted_key = encrypted_data[:RANDOM_BYTES_NUMBER], encrypted_data[RANDOM_BYTES_NUMBER:]
@@ -32,6 +58,33 @@ def decrypt_private_key(encrypted_key_path, pin):
 
 
 def sign_pdf(usb_path, pdf_path, pin):
+    """
+    Signs a PDF file using a private key stored on a USB device.
+
+    This function first locates the encrypted private key on the USB device, decrypts it using the provided PIN,
+    and then signs the specified PDF file. The signed PDF file is saved at a location chosen by the user.
+
+    If the PDF path or the private key cannot be found, appropriate error messages are returned.
+
+    Parameters
+    ----------
+    usb_path : str
+        The path to the USB device where the private key is stored.
+    pdf_path : str
+        The path to the PDF file to be signed.
+    pin : str
+        The PIN used to decrypt the private key.
+
+    Returns
+    -------
+    str
+        A message indicating the result of the signing operation. This can be a success message or an error message.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the encrypted private key is not found on the USB device.
+    """
     encrypted_key_path = find_private_key(usb_path)
 
     if not pdf_path:
@@ -76,6 +129,4 @@ def sign_pdf(usb_path, pdf_path, pin):
     with open(output_pdf_path, 'wb') as f:
         f.write(new_pdf_data)
 
-
     return f"Plik PDF został podpisany i zapisany jako {output_pdf_path}"
-
