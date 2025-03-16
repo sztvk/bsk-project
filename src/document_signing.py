@@ -6,6 +6,7 @@ from Crypto.Util.Padding import unpad
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes, serialization
 
+from src.verify_signature import verify_signature
 
 RANDOM_BYTES_NUMBER = 16
 
@@ -73,9 +74,12 @@ def main():
     private_key_path = input("Podaj ścieżkę do klucza prywatnego: ")
     pendrive_path = input("Podaj ścieżkę do pendrive: ")
     pdf_path = input("Podaj ścieżkę do pliku pdf, który chcesz podpisać: ")
+    public_key_path = input("Podaj ścieżkę do klucza publicznego: ")
 
     decrypt_private_key(private_key_path, pin)
     signed_pdf_path = sign_pdf(pendrive_path, pdf_path, pin)
+
+    verify_signature(signed_pdf_path, public_key_path)
 
 
 if __name__ == '__main__':
