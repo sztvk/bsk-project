@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QFileDialog, \
     QListWidget, QMessageBox, QTextEdit, QInputDialog
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
 
 from src.detecting_usb import detect_usb_devices
 from src.document_signing import sign_pdf
@@ -21,10 +22,23 @@ def create_gui():
     window.selected_file = None
     window.selected_pendrive = None
 
-    button_select_file = QPushButton('💖 Wybierz plik PDF 💖', window)
+    button_select_file = QPushButton('✧ Wybierz plik PDF ✧', window)
     file_preview = QTextEdit(window)
     file_preview.setReadOnly(True)
     file_preview.setPlaceholderText('📄 Podgląd pliku PDF...')
+
+    status_label = QLabel('Wybierz plik PDF i nośnik USB', window)
+    status_label.setAlignment(Qt.AlignCenter)
+    status_label.setStyleSheet("""
+        font-family: 'Verdana', sans-serif;
+        font-size: 14px;
+        color: #666666;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: #F0F0F0;
+        margin-top: 10px;
+        font-weight: normal;
+    """)
 
     def select_file():
         file_dialog = QFileDialog()
@@ -33,6 +47,35 @@ def create_gui():
             file_path = file_path.replace("/", "\\")
             window.selected_file = file_path
             file_preview.setText(f'📜 Wybrany plik: {file_path}')
+
+            if window.selected_file and window.selected_pendrive:
+                status_label.setText("Plik PDF i nośnik USB wybrane. Możesz podpisać lub zweryfikować dokument.")
+                status_label.setStyleSheet("""
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #006600;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #E6FFE6;
+                    margin-top: 10px;
+                    font-weight: normal;
+                """)
+                button_sign_document.setVisible(True)
+                button_verify_signature.setVisible(True)
+            else:
+                status_label.setText("Plik PDF wybrany. Wybierz nośnik USB.")
+                status_label.setStyleSheet("""
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #0066CC;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #E6F2FF;
+                    margin-top: 10px;
+                    font-weight: normal;
+                """)
+                button_sign_document.setVisible(False)
+                button_verify_signature.setVisible(False)
 
     button_select_file.clicked.connect(select_file)
 
@@ -46,9 +89,50 @@ def create_gui():
     button_refresh_usb = QPushButton('🔄 Odśwież listę USB', window)
 
     def refresh_usb():
+        status_label.setText("Wyszukiwanie nośników USB...")
+        status_label.setStyleSheet("""
+            font-family: 'Verdana', sans-serif;
+            font-size: 14px;
+            color: #FF6600;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #FFF3E6;
+            margin-top: 10px;
+            font-weight: normal;
+        """)
+        app.processEvents()
+
         usb_list.clear()
         devices = detect_usb_devices()
         usb_list.addItems([f"{dev}" for dev in devices])
+
+        if devices:
+            status_label.setText(f"Liczba wykrytych nośników USB: {len(devices)}. Wybierz jeden z listy.")
+            status_label.setStyleSheet("""
+                font-family: 'Verdana', sans-serif;
+                font-size: 14px;
+                color: #0066CC;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #E6F2FF;
+                margin-top: 10px;
+                font-weight: normal;
+            """)
+        else:
+            status_label.setText("Nie wykryto żadnych nośników USB. Podłącz nośnik i odśwież listę.")
+            status_label.setStyleSheet("""
+                font-family: 'Verdana', sans-serif;
+                font-size: 14px;
+                color: #CC0000;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #FFEEEE;
+                margin-top: 10px;
+                font-weight: normal;
+            """)
+        window.selected_pendrive = None
+        button_sign_document.setVisible(False)
+        button_verify_signature.setVisible(False)
 
     button_refresh_usb.clicked.connect(refresh_usb)
 
@@ -61,8 +145,48 @@ def create_gui():
     def on_item_clicked():
         window.selected_pendrive = usb_list.currentItem().text()
 
-        button_sign_document.setVisible(True)
-        button_verify_signature.setVisible(True)
+        if window.selected_file and window.selected_pendrive:
+            button_sign_document.setVisible(True)
+            button_verify_signature.setVisible(True)
+            status_label.setText("Plik PDF i nośnik USB wybrane. Możesz podpisać lub zweryfikować dokument.")
+            status_label.setStyleSheet("""
+                font-family: 'Verdana', sans-serif;
+                font-size: 14px;
+                color: #006600;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #E6FFE6;
+                margin-top: 10px;
+                font-weight: normal;
+            """)
+        else:
+            button_sign_document.setVisible(False)
+            button_verify_signature.setVisible(False)
+
+            if window.selected_pendrive:
+                status_label.setText("Nośnik USB wybrany. Wybierz plik PDF.")
+                status_label.setStyleSheet("""
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #0066CC;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #E6F2FF;
+                    margin-top: 10px;
+                    font-weight: normal;
+                """)
+            else:
+                status_label.setText("Wybierz plik PDF i nośnik USB.")
+                status_label.setStyleSheet("""
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #0066CC;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #E6F2FF;
+                    margin-top: 10px;
+                    font-weight: normal;
+                """)
 
     usb_list.itemClicked.connect(on_item_clicked)
 
@@ -71,18 +195,114 @@ def create_gui():
 
         if ok and pin:
             try:
+                status_label.setText("Podpisywanie dokumentu...")
+                status_label.setStyleSheet("""
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #FF6600;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #FFF3E6;
+                    margin-top: 10px;
+                    font-weight: normal;
+                """)
+                app.processEvents()
+
                 pin = str(pin)
-                sign_pdf(window.selected_pendrive, window.selected_file, pin)
+                mess = sign_pdf(window.selected_pendrive, window.selected_file, pin)
+
+                status_label.setText(mess)
+                status_label.setStyleSheet("""
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #006600;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #E6FFE6;
+                    margin-top: 10px;
+                    font-weight: normal;
+                """)
             except ValueError:
-                QMessageBox.warning(window, 'Błąd', 'Nieprawidłowy PIN.')
+                status_label.setText("Błąd! Nieprawidłowy PIN.")
+                status_label.setStyleSheet("""
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #CC0000;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #FFEEEE;
+                    margin-top: 10px;
+                    font-weight: normal;
+                """)
+            except Exception as e:
+                status_label.setText(f"Błąd podczas podpisywania: {str(e)}")
+                status_label.setStyleSheet("""
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #CC0000;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #FFEEEE;
+                    margin-top: 10px;
+                    font-weight: normal;
+                """)
         else:
+            status_label.setText("Błąd! PIN nie został wprowadzony.")
+            status_label.setStyleSheet("""
+                font-family: 'Verdana', sans-serif;
+                font-size: 14px;
+                color: #CC0000;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #FFEEEE;
+                margin-top: 10px;
+                font-weight: normal;
+            """)
             QMessageBox.warning(window, 'Błąd', 'PIN nie został wprowadzony.')
 
     button_sign_document.clicked.connect(sign_document)
 
     def signature_verification():
-        public_key = find_public_key(window.selected_pendrive)
-        verify_signature(window.selected_file, public_key)
+        try:
+            status_label.setText("Weryfikacja podpisu...")
+            status_label.setStyleSheet("""
+                font-family: 'Verdana', sans-serif;
+                font-size: 14px;
+                color: #FF6600;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #FFF3E6;
+                margin-top: 10px;
+                font-weight: normal;
+            """)
+            app.processEvents()
+
+            public_key = find_public_key(window.selected_pendrive)
+            mess = verify_signature(window.selected_file, public_key)
+
+            status_label.setText(mess)
+            status_label.setStyleSheet("""
+                font-family: 'Verdana', sans-serif;
+                font-size: 14px;
+                color: #006600;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #E6FFE6;
+                margin-top: 10px;
+                font-weight: normal;
+            """)
+        except Exception as e:
+            status_label.setText(f"Błąd podczas weryfikacji podpisu: {str(e)}")
+            status_label.setStyleSheet("""
+                font-family: 'Verdana', sans-serif;
+                font-size: 14px;
+                color: #CC0000;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #FFEEEE;
+                margin-top: 10px;
+                font-weight: normal;
+            """)
 
     button_verify_signature.clicked.connect(signature_verification)
 
@@ -97,7 +317,11 @@ def create_gui():
     main_layout.addLayout(left_layout)
     main_layout.addLayout(right_layout)
 
-    window.setLayout(main_layout)
+    final_layout = QVBoxLayout()
+    final_layout.addLayout(main_layout)
+    final_layout.addWidget(status_label)
+
+    window.setLayout(final_layout)
 
     window.setStyleSheet("""
         QWidget {

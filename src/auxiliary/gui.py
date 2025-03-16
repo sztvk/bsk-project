@@ -1,6 +1,7 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QLineEdit, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QLineEdit, QFileDialog
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
 
 from key_generation import key_generator
 
@@ -32,21 +33,113 @@ def create_gui():
                     font-style: italic;
                 }
             """)
+            status_label.setText("Folder wybrany. Wprowadź PIN i kliknij 'Generuj RSA'")
+            status_label.setStyleSheet("""
+                QLabel {
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #0066CC;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #E6F2FF;
+                    margin-top: 10px;
+                }
+            """)
 
     def generate_rsa():
         nonlocal pin
         pin = pin_input.text()
 
         if not pin.isdigit():
-            QMessageBox.warning(window, "Błąd", "PIN musi składać się tylko z cyfr.")
+            status_label.setText("Błąd! PIN musi składać się tylko z cyfr.")
+            status_label.setStyleSheet("""
+                QLabel {
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #CC0000;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #FFEEEE;
+                    margin-top: 10px;
+                }
+            """)
             return
 
-        if pin and selected_folder:
+        if not selected_folder:
+            status_label.setText("Błąd! Nie wybrano folderu do zapisania kluczy.")
+            status_label.setStyleSheet("""
+                QLabel {
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #CC0000;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #FFEEEE;
+                    margin-top: 10px;
+                }
+            """)
+            return
+
+        if not pin:
+            status_label.setText("Błąd! Nie wprowadzono PIN-u.")
+            status_label.setStyleSheet("""
+                QLabel {
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #CC0000;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #FFEEEE;
+                    margin-top: 10px;
+                }
+            """)
+            return
+
+        status_label.setText("Generowanie kluczy RSA w toku...")
+        status_label.setStyleSheet("""
+            QLabel {
+                font-family: 'Verdana', sans-serif;
+                font-size: 14px;
+                color: #FF6600;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #FFF3E6;
+                margin-top: 10px;
+            }
+        """)
+
+        app.processEvents()
+
+        try:
             key_generator(pin, selected_folder)
             print(f"Generowanie kluczy RSA z PIN-em: {pin}")
-            QMessageBox.information(window, "Sukces", f"Klucze RSA zostały wygenerowane w folderze: {selected_folder}")
-        else:
-            QMessageBox.warning(window, "Błąd", "Proszę wprowadzić PIN i wybrać folder.")
+            status_label.setText(f"Sukces! Klucze RSA zostały zapisane w folderze: {selected_folder}")
+            status_label.setStyleSheet("""
+                QLabel {
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #006600;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #E6FFE6;
+                    margin-top: 10px;
+                }
+            """)
+            pin_input.clear()
+        except Exception as e:
+            status_label.setText(f"Błąd podczas generowania kluczy: {str(e)}")
+            status_label.setStyleSheet("""
+                QLabel {
+                    font-family: 'Verdana', sans-serif;
+                    font-size: 14px;
+                    color: #CC0000;
+                    padding: 5px;
+                    border-radius: 5px;
+                    background-color: #FFEEEE;
+                    margin-top: 10px;
+                }
+            """)
+
 
     layout = QVBoxLayout()
 
@@ -131,9 +224,24 @@ def create_gui():
     """)
     button_generate_rsa.clicked.connect(generate_rsa)
 
+    status_label = QLabel("Wybierz folder i wprowadź PIN", window)
+    status_label.setStyleSheet("""
+        QLabel {
+            font-family: 'Verdana', sans-serif;
+            font-size: 14px;
+            color: #666666;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #F0F0F0;
+            margin-top: 10px;
+        }
+    """)
+    status_label.setAlignment(Qt.AlignCenter)
+
     layout.addLayout(folder_layout)
     layout.addWidget(pin_input)
     layout.addWidget(button_generate_rsa)
+    layout.addWidget(status_label)
 
     window.setLayout(layout)
 

@@ -33,6 +33,10 @@ def decrypt_private_key(encrypted_key_path, pin):
 
 def sign_pdf(usb_path, pdf_path, pin):
     encrypted_key_path = find_private_key(usb_path)
+
+    if not pdf_path:
+        return "Nie wybrano pliku."
+
     if not os.path.exists(encrypted_key_path):
         raise FileNotFoundError("Nie znaleziono klucza prywatnego na pendrive.")
 
@@ -44,8 +48,7 @@ def sign_pdf(usb_path, pdf_path, pin):
         None, 'Zapisz podpisany plik PDF', '', 'PDF Files (*.pdf)')
 
     if not output_pdf_path:
-        QMessageBox.warning(None, 'Błąd', 'Nie wybrano ścieżki zapisu.')
-        return None
+        return "Nie wybrano ścieżki zapisu."
 
     with open(pdf_path, "rb") as f:
         pdf_data = f.read()
@@ -73,6 +76,6 @@ def sign_pdf(usb_path, pdf_path, pin):
     with open(output_pdf_path, 'wb') as f:
         f.write(new_pdf_data)
 
-    print(f"Plik PDF został podpisany i zapisany jako {output_pdf_path}")
 
-    return output_pdf_path
+    return f"Plik PDF został podpisany i zapisany jako {output_pdf_path}"
+

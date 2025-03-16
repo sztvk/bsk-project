@@ -14,22 +14,19 @@ def verify_signature(pdf_path, public_key_path):
     sig_dict_start = full_pdf.rfind(b'<<\n/Type /Sig')
     sig_dict_end = full_pdf.rfind(b'>\n>>') + 4
     if sig_dict_start == -1:
-        print("Brak słownika podpisu w pliku PDF.")
-        return
+        return "Brak podpisu w pliku PDF."
 
     sig_dict_data = full_pdf[sig_dict_start:]
 
     contents_match = re.search(rb'/Contents\s*<([0-9A-Fa-f]+)>', sig_dict_data)
     if not contents_match:
-        print("Nie znaleziono pola /Contents w słowniku podpisu.")
-        return
+        return "Nie znaleziono pola /Contents w słowniku podpisu."
 
     signature_hex = contents_match.group(1)
     try:
         signature = bytes.fromhex(signature_hex.decode('ascii'))
     except Exception as e:
-        print(f"Błąd przy konwersji podpisu z hex")
-        return
+        return "Błąd przy konwersji podpisu z hex"
 
     data_to_verify = full_pdf[:sig_dict_start].rstrip() + full_pdf[sig_dict_end:].rstrip() + b"\n"
 
@@ -40,6 +37,6 @@ def verify_signature(pdf_path, public_key_path):
             padding.PKCS1v15(),
             hashes.SHA256()
         )
-        print("Podpis jest ważny!")
+        return "Podpis jest ważny!"
     except Exception as e:
-        print(f"Plik został zmodyfikowany. Podpis jest nieważny!")
+        return "Plik został zmodyfikowany. Podpis jest nieważny!"
