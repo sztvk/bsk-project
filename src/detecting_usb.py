@@ -12,7 +12,7 @@ def detect_usb_devices():
             if "Removable Disk" in line:
                 columns = line.split()
                 if len(columns) > 2:
-                    usb_devices.append(f"{columns[2]} ({columns[0]})")
+                    usb_devices.append(f"{columns[0]}\\")
 
     elif system_name == "Linux":
         result = subprocess.run(["lsblk", "-o", "NAME,LABEL,MOUNTPOINT"], capture_output=True, text=True)
