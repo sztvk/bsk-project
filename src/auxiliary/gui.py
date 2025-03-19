@@ -289,8 +289,7 @@ def create_gui():
         None
         """
         nonlocal selected_folder_pub_key
-        folder_path_pub_key = QFileDialog.getExistingDirectory(window, 'Wybierz folder do zapisania klucza publicznego',
-                                                               '')
+        folder_path_pub_key = QFileDialog.getExistingDirectory(window, 'Wybierz folder do zapisania klucza publicznego')
         if folder_path_pub_key:
             selected_folder_pub_key = folder_path_pub_key
             folder_pub_label.setText(f"Ścieżka wybranego folderu: {folder_path_pub_key}")
