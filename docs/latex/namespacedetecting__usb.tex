@@ -1,0 +1,44 @@
+\doxysection{detecting\+\_\+usb Namespace Reference}
+\hypertarget{namespacedetecting__usb}{}\label{namespacedetecting__usb}\index{detecting\_usb@{detecting\_usb}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacedetecting__usb_a7fba544b416f3b7bb06c48e4bd390a6b}{detect\+\_\+usb\+\_\+devices}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacedetecting__usb_a7fba544b416f3b7bb06c48e4bd390a6b}\index{detecting\_usb@{detecting\_usb}!detect\_usb\_devices@{detect\_usb\_devices}}
+\index{detect\_usb\_devices@{detect\_usb\_devices}!detecting\_usb@{detecting\_usb}}
+\doxysubsubsection{\texorpdfstring{detect\_usb\_devices()}{detect\_usb\_devices()}}
+{\footnotesize\ttfamily \label{namespacedetecting__usb_a7fba544b416f3b7bb06c48e4bd390a6b} 
+detecting\+\_\+usb.\+detect\+\_\+usb\+\_\+devices (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Detects USB devices connected to the system.
+
+This function identifies USB devices by checking the operating system. It handles both Windows and Linux platforms.
+- On Windows, it uses the `wmic` command to query information about logical disks and searches for devices marked as
+  "Removable Disk."
+- On Linux, it uses the `lsblk` command to list block devices and identifies USB devices based on the mount points
+  under `/media` or `/mnt`.
+
+The function returns a list of connected USB devices. If no USB devices are detected, it returns a default message
+indicating that no USB devices were found.
+
+The detected devices are returned in different formats depending on the operating system:
+- **Windows**: It returns the drive letter followed by a backslash (e.g., "C:\").
+- **Linux**: It returns the device label followed by the device name (e.g., "My USB (sdb1)").
+
+If no devices are found, the function returns a list containing the message "Brak wykrytych nośników" (which means
+"No detected media").
+
+Returns
+-------
+usb_devices : list
+    A list of detected USB devices or a message indicating no devices were found. The format depends on the
+    operating system:
+    - **Windows**: A list of drive letters with a backslash (e.g., ["C:\"]).
+    - **Linux**: A list of device labels and names (e.g., ["My USB (sdb1)"]).
+    If no devices are found, the list contains the string ["Brak wykrytych nośników"].
+\end{DoxyVerb}
+ 

@@ -1,0 +1,73 @@
+\doxysection{find\+\_\+keys Namespace Reference}
+\hypertarget{namespacefind__keys}{}\label{namespacefind__keys}\index{find\_keys@{find\_keys}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacefind__keys_abf886952bcdf623372a33ea7d075496e}{find\+\_\+public\+\_\+key}} (directory)
+\item 
+\mbox{\hyperlink{namespacefind__keys_a0acb30109d8b61c3b5ef203cd6683dbe}{find\+\_\+private\+\_\+key}} (directory)
+\item 
+\mbox{\hyperlink{namespacefind__keys_a366a63938b0a58ee434f3628f0f38829}{main}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacefind__keys_a0acb30109d8b61c3b5ef203cd6683dbe}\index{find\_keys@{find\_keys}!find\_private\_key@{find\_private\_key}}
+\index{find\_private\_key@{find\_private\_key}!find\_keys@{find\_keys}}
+\doxysubsubsection{\texorpdfstring{find\_private\_key()}{find\_private\_key()}}
+{\footnotesize\ttfamily \label{namespacefind__keys_a0acb30109d8b61c3b5ef203cd6683dbe} 
+find\+\_\+keys.\+find\+\_\+private\+\_\+key (\begin{DoxyParamCaption}\item[{}]{directory}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Finds the private key file (`encrypted_private_key.pk`) in the specified directory and its subdirectories.
+
+This function searches through the directory and its subdirectories to find a file named `encrypted_private_key.pk`.
+If the file is found, the full path to the file is returned. Otherwise, `None` is returned.
+
+Parameters
+----------
+directory : str
+    The path to the directory where the search for the private key will be performed.
+
+Returns
+-------
+str or None
+    The full path to the private key file if found, otherwise `None`.
+\end{DoxyVerb}
+ \Hypertarget{namespacefind__keys_abf886952bcdf623372a33ea7d075496e}\index{find\_keys@{find\_keys}!find\_public\_key@{find\_public\_key}}
+\index{find\_public\_key@{find\_public\_key}!find\_keys@{find\_keys}}
+\doxysubsubsection{\texorpdfstring{find\_public\_key()}{find\_public\_key()}}
+{\footnotesize\ttfamily \label{namespacefind__keys_abf886952bcdf623372a33ea7d075496e} 
+find\+\_\+keys.\+find\+\_\+public\+\_\+key (\begin{DoxyParamCaption}\item[{}]{directory}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Finds the public key file (`public_key.pubk`) in the specified directory and its subdirectories.
+
+This function searches through the directory and its subdirectories to find a file named `public_key.pubk`.
+If the file is found, the full path to the file is returned. Otherwise, `None` is returned.
+
+Parameters
+----------
+directory : str
+    The path to the directory where the search for the public key will be performed.
+
+Returns
+-------
+str or None
+    The full path to the public key file if found, otherwise `None`.
+\end{DoxyVerb}
+ \Hypertarget{namespacefind__keys_a366a63938b0a58ee434f3628f0f38829}\index{find\_keys@{find\_keys}!main@{main}}
+\index{main@{main}!find\_keys@{find\_keys}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{namespacefind__keys_a366a63938b0a58ee434f3628f0f38829} 
+find\+\_\+keys.\+main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Main function to find the public and private key files on the specified directory.
+
+This function prompts the user to input the path to the directory (typically the path to the USB drive),
+and then attempts to find the public and private key files by calling `find_public_key` and `find_private_key`.
+The full paths to these files are printed, if found.
+
+Returns
+-------
+None
+\end{DoxyVerb}
+ 
