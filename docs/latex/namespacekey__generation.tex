@@ -1,0 +1,121 @@
+\doxysection{key\+\_\+generation Namespace Reference}
+\hypertarget{namespacekey__generation}{}\label{namespacekey__generation}\index{key\_generation@{key\_generation}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacekey__generation_aa8376f6d15e4f280b1e3ef0838036f4f}{generate\+\_\+keys}} ()
+\item 
+\mbox{\hyperlink{namespacekey__generation_aadb058143df79961cca67c87dbad168b}{encrypt\+\_\+private\+\_\+key}} (private\+\_\+key, pin)
+\item 
+\mbox{\hyperlink{namespacekey__generation_aa5323ae9ab9488d9ef604c5e23a637e4}{save\+\_\+keys}} (public\+\_\+key, private\+\_\+key, directory)
+\item 
+\mbox{\hyperlink{namespacekey__generation_a517a60265edb976015722f40df3f61e6}{key\+\_\+generator}} (pin, directory)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespacekey__generation_a3eceaff10ed3fa95054b8173ce5983c9}{RSA\+\_\+\+KEY\+\_\+\+SIZE}} = 4096
+\item 
+int \mbox{\hyperlink{namespacekey__generation_aec6a2ff1a80a90a997c739a9b5638494}{PUBLIC\+\_\+\+EXPONENT}} = 65537
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacekey__generation_aadb058143df79961cca67c87dbad168b}\index{key\_generation@{key\_generation}!encrypt\_private\_key@{encrypt\_private\_key}}
+\index{encrypt\_private\_key@{encrypt\_private\_key}!key\_generation@{key\_generation}}
+\doxysubsubsection{\texorpdfstring{encrypt\_private\_key()}{encrypt\_private\_key()}}
+{\footnotesize\ttfamily \label{namespacekey__generation_aadb058143df79961cca67c87dbad168b} 
+key\+\_\+generation.\+encrypt\+\_\+private\+\_\+key (\begin{DoxyParamCaption}\item[{}]{private\+\_\+key}{, }\item[{}]{pin}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Encrypts the private key using AES encryption with a key derived from the provided PIN.
+
+This function uses AES encryption in CBC mode to encrypt the private key. The PIN is hashed using SHA-256
+and then used as the key for the AES encryption. A random initialization vector (IV) is generated for the CBC mode.
+
+Parameters
+----------
+private_key : RSA key
+    The private key to be encrypted.
+pin : str
+    The PIN used to generate the encryption key.
+
+Returns
+-------
+encrypted_key : bytes
+    The encrypted private key, which includes the IV followed by the encrypted data.
+\end{DoxyVerb}
+ \Hypertarget{namespacekey__generation_aa8376f6d15e4f280b1e3ef0838036f4f}\index{key\_generation@{key\_generation}!generate\_keys@{generate\_keys}}
+\index{generate\_keys@{generate\_keys}!key\_generation@{key\_generation}}
+\doxysubsubsection{\texorpdfstring{generate\_keys()}{generate\_keys()}}
+{\footnotesize\ttfamily \label{namespacekey__generation_aa8376f6d15e4f280b1e3ef0838036f4f} 
+key\+\_\+generation.\+generate\+\_\+keys (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generates a pair of RSA keys: a private key and a public key.
+
+This function uses the cryptography library to generate an RSA private key with the specified key size and public exponent.
+The corresponding public key is derived from the private key.
+
+Returns
+-------
+private_key : RSA key
+    The generated private key.
+public_key : RSA key
+    The generated public key.
+\end{DoxyVerb}
+ \Hypertarget{namespacekey__generation_a517a60265edb976015722f40df3f61e6}\index{key\_generation@{key\_generation}!key\_generator@{key\_generator}}
+\index{key\_generator@{key\_generator}!key\_generation@{key\_generation}}
+\doxysubsubsection{\texorpdfstring{key\_generator()}{key\_generator()}}
+{\footnotesize\ttfamily \label{namespacekey__generation_a517a60265edb976015722f40df3f61e6} 
+key\+\_\+generation.\+key\+\_\+generator (\begin{DoxyParamCaption}\item[{}]{pin}{, }\item[{}]{directory}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generates a pair of RSA keys, encrypts the private key using the provided PIN, and saves the keys to a directory.
+
+This function calls `generate_keys` to generate the keys, then `encrypt_private_key` to encrypt the private key,
+and finally `save_keys` to save the keys to disk.
+
+Parameters
+----------
+pin : str
+    The PIN used to encrypt the private key.
+directory : str
+    The directory where the keys will be saved.
+
+Returns
+-------
+None
+\end{DoxyVerb}
+ \Hypertarget{namespacekey__generation_aa5323ae9ab9488d9ef604c5e23a637e4}\index{key\_generation@{key\_generation}!save\_keys@{save\_keys}}
+\index{save\_keys@{save\_keys}!key\_generation@{key\_generation}}
+\doxysubsubsection{\texorpdfstring{save\_keys()}{save\_keys()}}
+{\footnotesize\ttfamily \label{namespacekey__generation_aa5323ae9ab9488d9ef604c5e23a637e4} 
+key\+\_\+generation.\+save\+\_\+keys (\begin{DoxyParamCaption}\item[{}]{public\+\_\+key}{, }\item[{}]{private\+\_\+key}{, }\item[{}]{directory}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Saves the public and encrypted private keys to the specified directory.
+
+This function writes the public key to a `.pubk` file and the encrypted private key to a `.pk` file.
+Both files are saved in the specified directory.
+
+Parameters
+----------
+public_key : RSA key
+    The public key to be saved.
+private_key : bytes
+    The encrypted private key to be saved.
+directory : str
+    The directory where the keys will be saved.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacekey__generation_aec6a2ff1a80a90a997c739a9b5638494}\index{key\_generation@{key\_generation}!PUBLIC\_EXPONENT@{PUBLIC\_EXPONENT}}
+\index{PUBLIC\_EXPONENT@{PUBLIC\_EXPONENT}!key\_generation@{key\_generation}}
+\doxysubsubsection{\texorpdfstring{PUBLIC\_EXPONENT}{PUBLIC\_EXPONENT}}
+{\footnotesize\ttfamily \label{namespacekey__generation_aec6a2ff1a80a90a997c739a9b5638494} 
+int key\+\_\+generation.\+PUBLIC\+\_\+\+EXPONENT = 65537}
+
+\Hypertarget{namespacekey__generation_a3eceaff10ed3fa95054b8173ce5983c9}\index{key\_generation@{key\_generation}!RSA\_KEY\_SIZE@{RSA\_KEY\_SIZE}}
+\index{RSA\_KEY\_SIZE@{RSA\_KEY\_SIZE}!key\_generation@{key\_generation}}
+\doxysubsubsection{\texorpdfstring{RSA\_KEY\_SIZE}{RSA\_KEY\_SIZE}}
+{\footnotesize\ttfamily \label{namespacekey__generation_a3eceaff10ed3fa95054b8173ce5983c9} 
+int key\+\_\+generation.\+RSA\+\_\+\+KEY\+\_\+\+SIZE = 4096}
+

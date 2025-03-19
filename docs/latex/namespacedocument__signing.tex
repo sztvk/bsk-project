@@ -1,0 +1,89 @@
+\doxysection{document\+\_\+signing Namespace Reference}
+\hypertarget{namespacedocument__signing}{}\label{namespacedocument__signing}\index{document\_signing@{document\_signing}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacedocument__signing_aad90ceb765c8f663941c3499a952cf5d}{decrypt\+\_\+private\+\_\+key}} (encrypted\+\_\+key\+\_\+path, pin)
+\item 
+\mbox{\hyperlink{namespacedocument__signing_ada9b8091976ddcfc1086bc715ac397d7}{sign\+\_\+pdf}} (usb\+\_\+path, pdf\+\_\+path, pin)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespacedocument__signing_a87af5737ad20d9a564a08654cf5a61d9}{RANDOM\+\_\+\+BYTES\+\_\+\+NUMBER}} = 16
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacedocument__signing_aad90ceb765c8f663941c3499a952cf5d}\index{document\_signing@{document\_signing}!decrypt\_private\_key@{decrypt\_private\_key}}
+\index{decrypt\_private\_key@{decrypt\_private\_key}!document\_signing@{document\_signing}}
+\doxysubsubsection{\texorpdfstring{decrypt\_private\_key()}{decrypt\_private\_key()}}
+{\footnotesize\ttfamily \label{namespacedocument__signing_aad90ceb765c8f663941c3499a952cf5d} 
+document\+\_\+signing.\+decrypt\+\_\+private\+\_\+key (\begin{DoxyParamCaption}\item[{}]{encrypted\+\_\+key\+\_\+path}{, }\item[{}]{pin}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Decrypts a private key that has been encrypted using AES encryption with a PIN.
+
+This function reads the encrypted private key from the specified file, extracts the initialization vector (IV)
+and encrypted key data, and then decrypts the key using the AES algorithm. The PIN is hashed using SHA256 to
+generate the encryption key. If the decryption is successful, the private key is returned.
+
+If the provided PIN is incorrect, a `ValueError` is raised.
+
+Parameters
+----------
+encrypted_key_path : str
+    The path to the file containing the encrypted private key.
+pin : str
+    The PIN used to decrypt the private key.
+
+Returns
+-------
+private_key : RSA key
+    The decrypted private key.
+
+Raises
+------
+ValueError
+    If the PIN is incorrect or the decryption fails.
+\end{DoxyVerb}
+ \Hypertarget{namespacedocument__signing_ada9b8091976ddcfc1086bc715ac397d7}\index{document\_signing@{document\_signing}!sign\_pdf@{sign\_pdf}}
+\index{sign\_pdf@{sign\_pdf}!document\_signing@{document\_signing}}
+\doxysubsubsection{\texorpdfstring{sign\_pdf()}{sign\_pdf()}}
+{\footnotesize\ttfamily \label{namespacedocument__signing_ada9b8091976ddcfc1086bc715ac397d7} 
+document\+\_\+signing.\+sign\+\_\+pdf (\begin{DoxyParamCaption}\item[{}]{usb\+\_\+path}{, }\item[{}]{pdf\+\_\+path}{, }\item[{}]{pin}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Signs a PDF file using a private key stored on a USB device.
+
+This function first locates the encrypted private key on the USB device, decrypts it using the provided PIN,
+and then signs the specified PDF file. The signed PDF file is saved at a location chosen by the user.
+
+If the PDF path or the private key cannot be found, appropriate error messages are returned.
+
+Parameters
+----------
+usb_path : str
+    The path to the USB device where the private key is stored.
+pdf_path : str
+    The path to the PDF file to be signed.
+pin : str
+    The PIN used to decrypt the private key.
+
+Returns
+-------
+str
+    A message indicating the result of the signing operation. This can be a success message or an error message.
+
+Raises
+------
+FileNotFoundError
+    If the encrypted private key is not found on the USB device.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacedocument__signing_a87af5737ad20d9a564a08654cf5a61d9}\index{document\_signing@{document\_signing}!RANDOM\_BYTES\_NUMBER@{RANDOM\_BYTES\_NUMBER}}
+\index{RANDOM\_BYTES\_NUMBER@{RANDOM\_BYTES\_NUMBER}!document\_signing@{document\_signing}}
+\doxysubsubsection{\texorpdfstring{RANDOM\_BYTES\_NUMBER}{RANDOM\_BYTES\_NUMBER}}
+{\footnotesize\ttfamily \label{namespacedocument__signing_a87af5737ad20d9a564a08654cf5a61d9} 
+int document\+\_\+signing.\+RANDOM\+\_\+\+BYTES\+\_\+\+NUMBER = 16}
+
