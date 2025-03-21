@@ -32,12 +32,6 @@ def create_gui():
     window.setWindowIcon(QIcon('src/assets/key.png'))
     window.setWindowTitle('Generowanie Kluczy RSA')
     window.setGeometry(100, 100, 700, 400)
-    window.setStyleSheet("""
-        QWidget {
-            background-color: #fff0f5;
-            font-family: 'Verdana', cursive, sans-serif;
-        }
-    """)
 
     layout = QVBoxLayout()
 
@@ -45,60 +39,39 @@ def create_gui():
 
     folder_label_title = QLabel("Wybierz miejsca zapisu kluczy", window)
     folder_label_title.setStyleSheet("""
-        QLabel {
-            font-family: 'Arial', sans-serif;
-            font-size: 18px;
-            color: #D5006B;
-            padding-bottom: 10px;
-            font-weight: bold;
-        }
-    """)
+           font-weight: bold;
+           font-size: 16px;
+           text-decoration: underline;
+       """)
 
     private_key_label = QLabel("Klucz prywatny", window)
     private_key_label.setStyleSheet("""
-        QLabel {
-            font-family: 'Verdana', sans-serif;
-            font-size: 16px;
-            color: #D5006B;
-            padding-top: 5px;
-            font-style: bold;
-        }
+        font-weight: bold;
+        font-size: 14px;
     """)
 
     public_key_label = QLabel("Klucz publiczny", window)
     public_key_label.setStyleSheet("""
-        QLabel {
-            font-family: 'Verdana', sans-serif;
-            font-size: 16px;
-            color: #D5006B;
-            padding-top: 5px;
-            font-style: bold;
-        }
-    """)
+            font-weight: bold;
+            font-size: 14px;
+        """)
 
     folder_label = QLabel("Ścieżka folderu: Nie wybrano", window)
     folder_label.setStyleSheet("""
-        QLabel {
-            font-family: 'Verdana', sans-serif;
             font-size: 12px;
-            color: #D5006B;
-            padding-left: 10px;
-            padding-top: 5px;
-            font-style: italic;
-        }
-    """)
+        """)
 
     folder_pub_label = QLabel("Ścieżka folderu: Nie wybrano", window)
     folder_pub_label.setStyleSheet("""
-        QLabel {
-            font-family: 'Verdana', sans-serif;
-            font-size: 12px;
-            color: #D5006B;
-            padding-left: 10px;
-            padding-top: 5px;
-            font-style: italic;
-        }
+        font-size: 12px;
     """)
+
+    key_label_title = QLabel("Wygeneruj klucze")
+    key_label_title.setStyleSheet("""
+               font-weight: bold;
+               font-size: 16px;
+               text-decoration: underline;
+           """)
 
     status_label = QLabel("Wybierz folder i wprowadź PIN", window)
     status_label.setStyleSheet("""
@@ -116,72 +89,17 @@ def create_gui():
 
     usb_list = QListWidget(window)
 
-    button_refresh_usb = QPushButton('Odśwież listę USB', window)
-    button_refresh_usb.setStyleSheet("""
-      QPushButton {
-        background-color: #edb2cf;
-        color: white;
-        border-radius: 15px;
-        font-size: 16px;
-        padding: 10px;
-        margin-top: 10px;
-        font-weight: bold;
-        }
-        QPushButton:hover {
-            background-color: #d98ba6;
-        }
-    """)
+    button_refresh_usb = QPushButton('🔄 Odśwież listę USB', window)
 
-    button_select_folder_pub_key = QPushButton('Wybierz folder dla klucza publicznego', window)
-    button_select_folder_pub_key.setStyleSheet("""
-        QPushButton {
-            background-color: #ff7fae;
-            color: white;
-            border-radius: 15px;
-            font-size: 16px;
-            padding: 10px;
-            margin-top: 10px;
-        }
-        QPushButton:hover {
-            background-color: #ff467f;
-        }
-        QPushButton:pressed {
-            background-color: #e72d5f;
-        }
-    """)
+
+    button_select_folder_pub_key = QPushButton('📜 Wybierz folder dla klucza publicznego', window)
+
 
     pin_input = QLineEdit(window)
     pin_input.setEchoMode(QLineEdit.Password)
     pin_input.setPlaceholderText("Wpisz PIN")
-    pin_input.setStyleSheet("""
-        QLineEdit {
-            font-family: 'Verdana', sans-serif;
-            font-size: 20px;
-            text-align: center;
-            padding: 10px;
-            border: 2px solid #ff7fae;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-    """)
 
-    button_generate_rsa = QPushButton('Generuj RSA', window)
-    button_generate_rsa.setStyleSheet("""
-        QPushButton {
-            background-color: #ff7fae;
-            color: white;
-            border-radius: 15px;
-            font-size: 18px;
-            padding: 15px;
-            margin-top: 20px;
-        }
-        QPushButton:hover {
-            background-color: #ff467f;
-        }
-        QPushButton:pressed {
-            background-color: #e72d5f;
-        }
-    """)
+    button_generate_rsa = QPushButton('🔑 Generuj RSA', window)
 
     def refresh_usb():
         """
@@ -260,16 +178,6 @@ def create_gui():
 
         if selected_usb_priv_key:
             folder_label.setText(f"Ścieżka wybranego folderu: {selected_usb_priv_key}")
-            folder_label.setStyleSheet(""" 
-                QLabel {
-                    font-family: 'Verdana', sans-serif;
-                    font-size: 14px;
-                    color: #D5006B;
-                    padding-left: 10px;
-                    padding-top: 5px;
-                    font-style: italic;
-                }
-            """)
             if selected_folder_pub_key:
                 status_label.setText("Folder wybrany. Wprowadź PIN i kliknij 'Generuj RSA'")
             else:
@@ -293,16 +201,6 @@ def create_gui():
         if folder_path_pub_key:
             selected_folder_pub_key = folder_path_pub_key
             folder_pub_label.setText(f"Ścieżka wybranego folderu: {folder_path_pub_key}")
-            folder_pub_label.setStyleSheet(""" 
-                QLabel {
-                    font-family: 'Verdana', sans-serif;
-                    font-size: 14px;
-                    color: #D5006B;
-                    padding-left: 10px;
-                    padding-top: 5px;
-                    font-style: italic;
-                }
-            """)
             if selected_usb_priv_key != "":
                 status_label.setText("Foldery wybrane. Wprowadź PIN i kliknij 'Generuj RSA'")
             else:
@@ -440,9 +338,64 @@ def create_gui():
     folder_layout.addWidget(folder_pub_label)
 
     layout.addLayout(folder_layout)
+    layout.addWidget(key_label_title)
     layout.addWidget(pin_input)
     layout.addWidget(button_generate_rsa)
     layout.addWidget(status_label)
+
+    window.setStyleSheet("""
+            QWidget {
+                background-color: #ffff;
+                font-family: 'Verdana', cursive, sans-serif;
+            }
+            QLabel {
+                font-size: 16px;
+                color: #b87d9a;
+                font-weight: semi-bold;
+            }
+            QPushButton {
+                background-color: #edb2cf;
+                color: white;
+                border-radius: 15px;
+                font-size: 16px;
+                padding: 10px;
+                margin-top: 10px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #b87d9a;
+            }
+            QPushButton:pressed {
+                background-color: #7a4e64;
+            }
+            QPushButton:disabled {
+                background-color: #adadad;
+            }
+            QTextEdit, QListWidget {
+                background-color: white;
+                border: 2px solid #7a4e64;
+                border-radius: 10px;
+                padding: 8px;
+            }
+             QLineEdit {
+                background-color: white;
+                border: 2px solid #7a4e64;
+                border-radius: 10px;
+                padding: 8px;
+                font-size: 16px;
+                color: #333;
+            }
+            QLineEdit:focus {
+                border: 2px solid #b87d9a;
+                background-color: #fff5fa;
+            }
+            QTextEdit, QListWidget {
+                background-color: white;
+                border: 2px solid #7a4e64;
+                border-radius: 10px;
+                padding: 8px;
+            }
+        """)
 
     window.setLayout(layout)
     window.show()

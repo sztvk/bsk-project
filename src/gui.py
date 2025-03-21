@@ -57,8 +57,17 @@ def create_gui():
 
     checkbox_same_folder = QCheckBox("Czy klucz publiczny i prywatny znajdują się w tym samym folderze?", window)
     checkbox_same_folder.setChecked(True)
+    checkbox_same_folder.setVisible(False)
+
 
     selected_folder_pub_key = ""
+
+    def handle_checbox_change():
+        if checkbox_same_folder.isChecked():
+            pub_key_button.setDisabled(True)
+        else:
+            pub_key_button.setDisabled(False)
+
 
     def select_folder_pub_key():
         """
@@ -124,6 +133,7 @@ def create_gui():
                 button_sign_document.setVisible(True)
                 button_verify_signature.setVisible(True)
                 pub_key_button.setVisible(True)
+                checkbox_same_folder.setVisible(True)
             else:
                 status_label.setText("Plik PDF wybrany. Wybierz nośnik USB.")
                 status_label.setStyleSheet("""
@@ -139,8 +149,10 @@ def create_gui():
                 button_sign_document.setVisible(False)
                 button_verify_signature.setVisible(False)
                 pub_key_button.setVisible(False)
+                checkbox_same_folder.setVisible(False)
 
     button_select_file.clicked.connect(select_file)
+    checkbox_same_folder.clicked.connect(handle_checbox_change)
 
     left_layout = QVBoxLayout()
     left_layout.addWidget(button_select_file)
@@ -212,8 +224,8 @@ def create_gui():
         window.selected_pendrive = None
         button_sign_document.setVisible(False)
         button_verify_signature.setVisible(False)
-        if not checkbox_same_folder.isChecked():
-            pub_key_button.setVisible(False)
+        pub_key_button.setVisible(False)
+        checkbox_same_folder.setVisible(False)
 
     button_refresh_usb.clicked.connect(refresh_usb)
 
@@ -226,6 +238,8 @@ def create_gui():
 
     pub_key_button = QPushButton('Wybierz folder z kluczem publicznym', window)
     pub_key_button.setVisible(False)
+    pub_key_button.setDisabled(True)
+
 
 
     def on_item_clicked():
@@ -249,6 +263,7 @@ def create_gui():
             button_sign_document.setVisible(True)
             button_verify_signature.setVisible(True)
             pub_key_button.setVisible(True)
+            checkbox_same_folder.setVisible(True)
             status_label.setText("Plik PDF i nośnik USB wybrane. Możesz podpisać lub zweryfikować dokument.")
             status_label.setStyleSheet("""
                 font-family: 'Verdana', sans-serif;
@@ -263,7 +278,8 @@ def create_gui():
         else:
             button_sign_document.setVisible(False)
             button_verify_signature.setVisible(False)
-            pub_key_button.setVisible(True)
+            pub_key_button.setVisible(False)
+            checkbox_same_folder.setVisible(False)
 
             if window.selected_pendrive:
                 status_label.setText("Nośnik USB wybrany. Wybierz plik PDF.")
@@ -489,6 +505,9 @@ def create_gui():
         }
         QPushButton:pressed {
             background-color: #7a4e64;
+        }
+        QPushButton:disabled {
+            background-color: #adadad;
         }
         QTextEdit, QListWidget {
             background-color: white;
