@@ -294,7 +294,6 @@ def create_gui():
 
         try:
             key_generator(pin, selected_usb_priv_key, selected_folder_pub_key)
-            print(f"Generowanie kluczy RSA z PIN-em: {pin}")
             status_label.setText(
                 f"Sukces! Klucze prywatny został zapisany w folderze: {selected_usb_priv_key}, a klucz publiczny w {selected_folder_pub_key}")
             status_label.setStyleSheet("""
