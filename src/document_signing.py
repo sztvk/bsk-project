@@ -91,7 +91,7 @@ def sign_pdf(usb_path, pdf_path, pin):
         return "Nie wybrano pliku."
 
     if not os.path.exists(encrypted_key_path):
-        raise FileNotFoundError("Nie znaleziono klucza prywatnego na pendrive.")
+        return "Nie znaleziono klucza prywatnego na pendrive."
 
     private_key = decrypt_private_key(encrypted_key_path, pin)
 

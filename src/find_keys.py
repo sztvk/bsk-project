@@ -45,25 +45,3 @@ def find_private_key(directory):
         if "encrypted_private_key.pk" in files:
             return os.path.join(root, "encrypted_private_key.pk")
     return None
-
-
-def main():
-    """
-    Main function to find the public and private key files on the specified directory.
-
-    This function prompts the user to input the path to the directory (typically the path to the USB drive),
-    and then attempts to find the public and private key files by calling `find_public_key` and `find_private_key`.
-    The full paths to these files are printed, if found.
-
-    Returns
-    -------
-    None
-    """
-    directory = input("Ścieżka pendrive: ")
-    public_key = find_public_key(directory)
-    private_key = find_private_key(directory)
-    print(public_key, private_key)
-
-
-if __name__ == '__main__':
-    main()

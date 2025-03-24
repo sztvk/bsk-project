@@ -425,13 +425,19 @@ def create_gui():
 
             if checkbox_same_folder.isChecked():
                 public_key = find_public_key(window.selected_pendrive)
-                mess = verify_signature(window.selected_file, public_key)
+                if not public_key:
+                    mess = f"Nie znaleziono klucza publicznego w {window.selected_pendrive}"
+                else:
+                    mess = verify_signature(window.selected_file, public_key)
             else:
                 if selected_folder_pub_key == "":
                     mess = "Nie wybrano folderu z kluczem publicznym"
                 else:
                     public_key = find_public_key(selected_folder_pub_key)
-                    mess = verify_signature(window.selected_file, public_key)
+                    if not public_key:
+                        mess = f"Nie znaleziono klucza publicznego w {selected_folder_pub_key}"
+                    else:
+                        mess = verify_signature(window.selected_file, public_key)
 
             status_label.setText(mess)
             status_label.setStyleSheet("""
