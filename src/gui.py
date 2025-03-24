@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QFileDialog, \
-    QListWidget, QMessageBox, QTextEdit, QInputDialog
+    QListWidget, QMessageBox, QTextEdit, QInputDialog, QCheckBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
@@ -55,6 +55,47 @@ def create_gui():
         font-weight: normal;
     """)
 
+    checkbox_same_folder = QCheckBox("Czy klucz publiczny i prywatny znajdują się w tym samym folderze?", window)
+    checkbox_same_folder.setChecked(True)
+    checkbox_same_folder.setVisible(False)
+
+
+    selected_folder_pub_key = ""
+
+    def handle_checbox_change():
+        if checkbox_same_folder.isChecked():
+            pub_key_button.setDisabled(True)
+        else:
+            pub_key_button.setDisabled(False)
+
+
+    def select_folder_pub_key():
+        """
+        Selects a folder for storing the public key.
+
+        Opens a file dialog allowing the user to select a directory to save the public key.
+        Updates the UI labels accordingly.
+
+        If the USB device for the private key has not been selected, the user is prompted to do so.
+
+        Returns
+        -------
+        None
+        """
+        nonlocal selected_folder_pub_key
+        selected_folder_pub_key = QFileDialog.getExistingDirectory(window, 'Wybierz folder z kluczem publicznym')
+        status_label.setText(f"Wybrano folder z kluczem publicznym: {selected_folder_pub_key}")
+        status_label.setStyleSheet("""
+                        font-family: 'Verdana', sans-serif;
+                        font-size: 14px;
+                        color: #006600;
+                        padding: 5px;
+                        border-radius: 5px;
+                        background-color: #E6FFE6;
+                        margin-top: 10px;
+                        font-weight: normal;
+                    """)
+
     def select_file():
         """
         Opens a dialog to select a PDF file and displays its path in the widget.
@@ -91,6 +132,8 @@ def create_gui():
                 """)
                 button_sign_document.setVisible(True)
                 button_verify_signature.setVisible(True)
+                pub_key_button.setVisible(True)
+                checkbox_same_folder.setVisible(True)
             else:
                 status_label.setText("Plik PDF wybrany. Wybierz nośnik USB.")
                 status_label.setStyleSheet("""
@@ -105,8 +148,11 @@ def create_gui():
                 """)
                 button_sign_document.setVisible(False)
                 button_verify_signature.setVisible(False)
+                pub_key_button.setVisible(False)
+                checkbox_same_folder.setVisible(False)
 
     button_select_file.clicked.connect(select_file)
+    checkbox_same_folder.clicked.connect(handle_checbox_change)
 
     left_layout = QVBoxLayout()
     left_layout.addWidget(button_select_file)
@@ -178,14 +224,23 @@ def create_gui():
         window.selected_pendrive = None
         button_sign_document.setVisible(False)
         button_verify_signature.setVisible(False)
+        pub_key_button.setVisible(False)
+        checkbox_same_folder.setVisible(False)
 
     button_refresh_usb.clicked.connect(refresh_usb)
 
     button_sign_document = QPushButton('Podpisz dokument', window)
     button_sign_document.setVisible(False)
 
+
     button_verify_signature = QPushButton('Zweryfikuj podpis', window)
     button_verify_signature.setVisible(False)
+
+    pub_key_button = QPushButton('Wybierz folder z kluczem publicznym', window)
+    pub_key_button.setVisible(False)
+    pub_key_button.setDisabled(True)
+
+
 
     def on_item_clicked():
         """
@@ -207,6 +262,8 @@ def create_gui():
         if window.selected_file and window.selected_pendrive:
             button_sign_document.setVisible(True)
             button_verify_signature.setVisible(True)
+            pub_key_button.setVisible(True)
+            checkbox_same_folder.setVisible(True)
             status_label.setText("Plik PDF i nośnik USB wybrane. Możesz podpisać lub zweryfikować dokument.")
             status_label.setStyleSheet("""
                 font-family: 'Verdana', sans-serif;
@@ -221,6 +278,8 @@ def create_gui():
         else:
             button_sign_document.setVisible(False)
             button_verify_signature.setVisible(False)
+            pub_key_button.setVisible(False)
+            checkbox_same_folder.setVisible(False)
 
             if window.selected_pendrive:
                 status_label.setText("Nośnik USB wybrany. Wybierz plik PDF.")
@@ -364,8 +423,21 @@ def create_gui():
             """)
             app.processEvents()
 
-            public_key = find_public_key(window.selected_pendrive)
-            mess = verify_signature(window.selected_file, public_key)
+            if checkbox_same_folder.isChecked():
+                public_key = find_public_key(window.selected_pendrive)
+                if not public_key:
+                    mess = f"Nie znaleziono klucza publicznego w {window.selected_pendrive}"
+                else:
+                    mess = verify_signature(window.selected_file, public_key)
+            else:
+                if selected_folder_pub_key == "":
+                    mess = "Nie wybrano folderu z kluczem publicznym"
+                else:
+                    public_key = find_public_key(selected_folder_pub_key)
+                    if not public_key:
+                        mess = f"Nie znaleziono klucza publicznego w {selected_folder_pub_key}"
+                    else:
+                        mess = verify_signature(window.selected_file, public_key)
 
             status_label.setText(mess)
             status_label.setStyleSheet("""
@@ -392,6 +464,7 @@ def create_gui():
             """)
 
     button_verify_signature.clicked.connect(signature_verification)
+    pub_key_button.clicked.connect(select_folder_pub_key)
 
     right_layout = QVBoxLayout()
     right_layout.addWidget(usb_label)
@@ -399,6 +472,7 @@ def create_gui():
     right_layout.addWidget(button_refresh_usb)
     right_layout.addWidget(button_sign_document)
     right_layout.addWidget(button_verify_signature)
+    right_layout.addWidget(pub_key_button)
 
     main_layout = QHBoxLayout()
     main_layout.addLayout(left_layout)
@@ -409,6 +483,8 @@ def create_gui():
     final_layout.addWidget(status_label)
 
     window.setLayout(final_layout)
+
+    right_layout.insertWidget(3, checkbox_same_folder)
 
     window.setStyleSheet("""
         QWidget {
@@ -435,6 +511,9 @@ def create_gui():
         }
         QPushButton:pressed {
             background-color: #7a4e64;
+        }
+        QPushButton:disabled {
+            background-color: #adadad;
         }
         QTextEdit, QListWidget {
             background-color: white;

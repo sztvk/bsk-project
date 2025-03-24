@@ -67,7 +67,7 @@ def encrypt_private_key(private_key, pin):
     return iv + encrypted_key
 
 
-def save_keys(public_key, private_key, directory):
+def save_keys(public_key, private_key, directory, directory_pub):
     """
     Saves the public and encrypted private keys to the specified directory.
 
@@ -83,7 +83,7 @@ def save_keys(public_key, private_key, directory):
     directory : str
         The directory where the keys will be saved.
     """
-    public_key_path = os.path.join(directory, "public_key.pubk")
+    public_key_path = os.path.join(directory_pub, "public_key.pubk")
     with open(public_key_path, "wb") as public_key_file:
         public_key_file.write(public_key.public_bytes(
             encoding=serialization.Encoding.PEM,
@@ -95,7 +95,7 @@ def save_keys(public_key, private_key, directory):
         private_key_file.write(private_key)
 
 
-def key_generator(pin, directory):
+def key_generator(pin, directory, directory_pub):
     """
     Generates a pair of RSA keys, encrypts the private key using the provided PIN, and saves the keys to a directory.
 
@@ -115,4 +115,4 @@ def key_generator(pin, directory):
     """
     private_key, public_key = generate_keys()
     private_key_encrypted = encrypt_private_key(private_key, pin)
-    save_keys(public_key, private_key_encrypted, directory)
+    save_keys(public_key, private_key_encrypted, directory, directory_pub)
