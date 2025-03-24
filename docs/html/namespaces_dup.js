@@ -10,8 +10,7 @@ var namespaces_dup =
     ] ],
     [ "find_keys", "namespacefind__keys.html", [
       [ "find_private_key", "namespacefind__keys.html#a0acb30109d8b61c3b5ef203cd6683dbe", null ],
-      [ "find_public_key", "namespacefind__keys.html#abf886952bcdf623372a33ea7d075496e", null ],
-      [ "main", "namespacefind__keys.html#a366a63938b0a58ee434f3628f0f38829", null ]
+      [ "find_public_key", "namespacefind__keys.html#abf886952bcdf623372a33ea7d075496e", null ]
     ] ],
     [ "gui", "namespacegui.html", [
       [ "create_gui", "namespacegui.html#a19755b7061f3275700286cc5e66fb784", null ]
@@ -19,8 +18,8 @@ var namespaces_dup =
     [ "key_generation", "namespacekey__generation.html", [
       [ "encrypt_private_key", "namespacekey__generation.html#aadb058143df79961cca67c87dbad168b", null ],
       [ "generate_keys", "namespacekey__generation.html#aa8376f6d15e4f280b1e3ef0838036f4f", null ],
-      [ "key_generator", "namespacekey__generation.html#a517a60265edb976015722f40df3f61e6", null ],
-      [ "save_keys", "namespacekey__generation.html#aa5323ae9ab9488d9ef604c5e23a637e4", null ],
+      [ "key_generator", "namespacekey__generation.html#a90334955a9bdc948978100ad2cedbd67", null ],
+      [ "save_keys", "namespacekey__generation.html#af4408abef327e1611cef2bf2ab9d431c", null ],
       [ "PUBLIC_EXPONENT", "namespacekey__generation.html#aec6a2ff1a80a90a997c739a9b5638494", null ],
       [ "RSA_KEY_SIZE", "namespacekey__generation.html#a3eceaff10ed3fa95054b8173ce5983c9", null ]
     ] ],

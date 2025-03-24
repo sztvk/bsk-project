@@ -22,6 +22,10 @@ def detect_usb_devices():
     If no devices are found, the function returns a list containing the message "Brak wykrytych nośników" (which means
     "No detected media").
 
+    Parameters
+    ----------
+    None.
+
     Returns
     -------
     usb_devices : list

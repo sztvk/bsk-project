@@ -18,6 +18,10 @@ def create_gui():
     - A button to trigger the RSA key generation process.
     - A status label to display messages to the user.
 
+    Parameters
+    ----------
+    None.
+
     Returns
     -------
     None

@@ -115,10 +115,10 @@ Functions</h2></td></tr>
 <tr class="separator:aa8376f6d15e4f280b1e3ef0838036f4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aadb058143df79961cca67c87dbad168b" id="r_aadb058143df79961cca67c87dbad168b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aadb058143df79961cca67c87dbad168b">encrypt_private_key</a> (private_key, pin)</td></tr>
 <tr class="separator:aadb058143df79961cca67c87dbad168b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5323ae9ab9488d9ef604c5e23a637e4" id="r_aa5323ae9ab9488d9ef604c5e23a637e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5323ae9ab9488d9ef604c5e23a637e4">save_keys</a> (public_key, private_key, directory)</td></tr>
-<tr class="separator:aa5323ae9ab9488d9ef604c5e23a637e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a517a60265edb976015722f40df3f61e6" id="r_a517a60265edb976015722f40df3f61e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a517a60265edb976015722f40df3f61e6">key_generator</a> (pin, directory)</td></tr>
-<tr class="separator:a517a60265edb976015722f40df3f61e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4408abef327e1611cef2bf2ab9d431c" id="r_af4408abef327e1611cef2bf2ab9d431c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4408abef327e1611cef2bf2ab9d431c">save_keys</a> (public_key, private_key, directory, directory_pub)</td></tr>
+<tr class="separator:af4408abef327e1611cef2bf2ab9d431c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90334955a9bdc948978100ad2cedbd67" id="r_a90334955a9bdc948978100ad2cedbd67"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90334955a9bdc948978100ad2cedbd67">key_generator</a> (pin, directory, directory_pub)</td></tr>
+<tr class="separator:a90334955a9bdc948978100ad2cedbd67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -193,8 +193,8 @@ public_key : RSA key
 </pre> 
 </div>
 </div>
-<a id="a517a60265edb976015722f40df3f61e6" name="a517a60265edb976015722f40df3f61e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a517a60265edb976015722f40df3f61e6">&#9670;&#160;</a></span>key_generator()</h2>
+<a id="a90334955a9bdc948978100ad2cedbd67" name="a90334955a9bdc948978100ad2cedbd67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90334955a9bdc948978100ad2cedbd67">&#9670;&#160;</a></span>key_generator()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -207,7 +207,12 @@ public_key : RSA key
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>directory</em></span>&#160;)</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>directory</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>directory_pub</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -229,8 +234,8 @@ None
 </pre> 
 </div>
 </div>
-<a id="aa5323ae9ab9488d9ef604c5e23a637e4" name="aa5323ae9ab9488d9ef604c5e23a637e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5323ae9ab9488d9ef604c5e23a637e4">&#9670;&#160;</a></span>save_keys()</h2>
+<a id="af4408abef327e1611cef2bf2ab9d431c" name="af4408abef327e1611cef2bf2ab9d431c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4408abef327e1611cef2bf2ab9d431c">&#9670;&#160;</a></span>save_keys()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -248,7 +253,12 @@ None
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>directory</em></span>&#160;)</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>directory</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>directory_pub</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
