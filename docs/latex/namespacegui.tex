@@ -3,7 +3,27 @@
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\hyperlink{namespacegui_a7b2ac32ac5bbcc6f6ff4966520e20837}{refresh\+\_\+usb}} (window, usb\+\_\+list, status\+\_\+label, app)
+\item 
+\mbox{\hyperlink{namespacegui_a5d957512cc1492c270a158112557d93e}{select\+\_\+folder\+\_\+priv\+\_\+key}} (usb\+\_\+list, folder\+\_\+label, selected\+\_\+folder\+\_\+pub\+\_\+key, status\+\_\+label)
+\item 
+\mbox{\hyperlink{namespacegui_a103a93c2c1d294284fc924d265cb9634}{select\+\_\+folder\+\_\+pub\+\_\+key}} (window, folder\+\_\+pub\+\_\+label, status\+\_\+label, selected\+\_\+usb\+\_\+priv\+\_\+key)
+\item 
+\mbox{\hyperlink{namespacegui_a1113072f3c1931687ee86ad7618956b3}{generate\+\_\+rsa}} (status\+\_\+label, selected\+\_\+usb\+\_\+priv\+\_\+key, selected\+\_\+folder\+\_\+pub\+\_\+key, app, pin\+\_\+input)
+\item 
 \mbox{\hyperlink{namespacegui_a19755b7061f3275700286cc5e66fb784}{create\+\_\+gui}} ()
+\item 
+\mbox{\hyperlink{namespacegui_a2aca016b7ac1e60b9b2d8c9c2f5c89d3}{select\+\_\+folder\+\_\+pub\+\_\+key}} (status\+\_\+label, window)
+\item 
+\mbox{\hyperlink{namespacegui_a6a09c1ed95ea4d030ece6d6d2eca120f}{select\+\_\+file}} (window, file\+\_\+preview, status\+\_\+label, button\+\_\+sign\+\_\+document, button\+\_\+verify\+\_\+signature, pub\+\_\+key\+\_\+button, checkbox\+\_\+same\+\_\+folder, folder\+\_\+label)
+\item 
+\mbox{\hyperlink{namespacegui_a16f0f1afb5c287322c80a001a20e80af}{refresh\+\_\+usb}} (status\+\_\+label, app, usb\+\_\+list, window, button\+\_\+sign\+\_\+document, checkbox\+\_\+same\+\_\+folder, button\+\_\+verify\+\_\+signature, pub\+\_\+key\+\_\+button, folder\+\_\+label)
+\item 
+\mbox{\hyperlink{namespacegui_aadce6e0c2cb48758a3cda4ff98919a25}{select\+\_\+usb\+\_\+device}} (window, usb\+\_\+list, button\+\_\+sign\+\_\+document, button\+\_\+verify\+\_\+signature, pub\+\_\+key\+\_\+button, checkbox\+\_\+same\+\_\+folder, status\+\_\+label, folder\+\_\+label)
+\item 
+\mbox{\hyperlink{namespacegui_a35d644c254cf52078e9b2adfb91365a6}{sign\+\_\+document}} (window, status\+\_\+label, app)
+\item 
+\mbox{\hyperlink{namespacegui_a5b26909632aa7c7c044366a2cd06af63}{signature\+\_\+verification}} (status\+\_\+label, app, checkbox\+\_\+same\+\_\+folder, window, selected\+\_\+folder\+\_\+pub\+\_\+key)
 \end{DoxyCompactItemize}
 
 
@@ -42,6 +62,302 @@ file and a USB device, and then sign or verify a document.
 Parameters
 ----------
 None.
+
+Returns
+-------
+None.
+\end{DoxyVerb}
+ \Hypertarget{namespacegui_a1113072f3c1931687ee86ad7618956b3}\index{gui@{gui}!generate\_rsa@{generate\_rsa}}
+\index{generate\_rsa@{generate\_rsa}!gui@{gui}}
+\doxysubsubsection{\texorpdfstring{generate\_rsa()}{generate\_rsa()}}
+{\footnotesize\ttfamily \label{namespacegui_a1113072f3c1931687ee86ad7618956b3} 
+gui.\+generate\+\_\+rsa (\begin{DoxyParamCaption}\item[{}]{status\+\_\+label}{, }\item[{}]{selected\+\_\+usb\+\_\+priv\+\_\+key}{, }\item[{}]{selected\+\_\+folder\+\_\+pub\+\_\+key}{, }\item[{}]{app}{, }\item[{}]{pin\+\_\+input}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generates RSA keys using the provided PIN and saves them to the selected folder.
+Validates user input, including checking if the PIN is a valid numeric value and if a folder is selected.
+
+If the key generation process is successful, the status label is updated to inform the user.
+If there is an error, an error message is displayed.
+
+Parameters
+----------
+status_label : QLabel
+    The label in the user interface that provides status updates and prompts the user for further actions.
+selected_usb_priv_key : str
+    The path of the selected USB device where the private key will be stored.
+selected_folder_pub_key : str
+    The path of the selected folder where the public key will be stored.
+app : QApplication
+    The auxiliary application instance responsible for managing the application's event loop and updating the interface.
+pin_input : QLineEdit
+    The input field where the user enters their PIN for key generation.
+
+Returns
+-------
+None
+\end{DoxyVerb}
+ \Hypertarget{namespacegui_a16f0f1afb5c287322c80a001a20e80af}\index{gui@{gui}!refresh\_usb@{refresh\_usb}}
+\index{refresh\_usb@{refresh\_usb}!gui@{gui}}
+\doxysubsubsection{\texorpdfstring{refresh\_usb()}{refresh\_usb()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{namespacegui_a16f0f1afb5c287322c80a001a20e80af} 
+gui.\+refresh\+\_\+usb (\begin{DoxyParamCaption}\item[{}]{status\+\_\+label}{, }\item[{}]{app}{, }\item[{}]{usb\+\_\+list}{, }\item[{}]{window}{, }\item[{}]{button\+\_\+sign\+\_\+document}{, }\item[{}]{checkbox\+\_\+same\+\_\+folder}{, }\item[{}]{button\+\_\+verify\+\_\+signature}{, }\item[{}]{pub\+\_\+key\+\_\+button}{, }\item[{}]{folder\+\_\+label}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Refreshes the list of detected USB devices.
+
+This function searches for connected USB devices and updates the list in the user interface. It provides status updates
+to the user, indicating whether devices were detected or if no devices were found. If devices are detected, the user
+can select one from the list, which will then enable the functionality to sign or verify the document.
+
+Parameters
+----------
+status_label : QLabel
+    The label in the user interface that provides status updates and prompts the user for further actions.
+app : QApplication
+    The main application instance responsible for managing the application's event loop and updating the interface.
+usb_list : QListWidget
+    The list widget that displays the detected USB devices for the user to select.
+window : QWidget
+    The main application window used for displaying and interacting with the user interface.
+button_sign_document : QPushButton
+    The button that allows the user to sign the document, visible once a USB device is selected.
+pub_key_button : QPushButton
+    The button to select the public key folder for document signature or verification.
+checkbox_same_folder : QCheckBox
+    The checkbox that determines if the private and public key should be stored in the same folder.
+folder_label: QLabel
+    The label of selected public ket path
+button_verify_signature : QPushButton
+    The button that allows the user to verify the signature of the PDF document once both the file and USB drive are selected.
+
+Returns
+-------
+None.
+\end{DoxyVerb}
+ \Hypertarget{namespacegui_a7b2ac32ac5bbcc6f6ff4966520e20837}\index{gui@{gui}!refresh\_usb@{refresh\_usb}}
+\index{refresh\_usb@{refresh\_usb}!gui@{gui}}
+\doxysubsubsection{\texorpdfstring{refresh\_usb()}{refresh\_usb()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{namespacegui_a7b2ac32ac5bbcc6f6ff4966520e20837} 
+gui.\+refresh\+\_\+usb (\begin{DoxyParamCaption}\item[{}]{window}{, }\item[{}]{usb\+\_\+list}{, }\item[{}]{status\+\_\+label}{, }\item[{}]{app}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Refreshes the list of detected USB devices.
+
+This function searches for connected USB devices and updates the list in the user interface. It provides status updates
+to the user, indicating whether devices were detected or if no devices were found. If devices are detected, the user
+can select one from the list, which will then enable the functionality to sign or verify the document.
+
+Parameters
+----------
+window : QWidget
+    The auxiliary application window used for displaying and interacting with the user interface.
+usb_list : QListWidget
+    The list widget in the user interface where the detected USB devices will be displayed.
+status_label : QLabel
+    The label in the user interface that provides status updates and prompts the user for further actions.
+app : QApplication
+    The auxiliary application instance responsible for managing the application's event loop and updating the interface.
+
+Returns
+-------
+None.
+\end{DoxyVerb}
+ \Hypertarget{namespacegui_a6a09c1ed95ea4d030ece6d6d2eca120f}\index{gui@{gui}!select\_file@{select\_file}}
+\index{select\_file@{select\_file}!gui@{gui}}
+\doxysubsubsection{\texorpdfstring{select\_file()}{select\_file()}}
+{\footnotesize\ttfamily \label{namespacegui_a6a09c1ed95ea4d030ece6d6d2eca120f} 
+gui.\+select\+\_\+file (\begin{DoxyParamCaption}\item[{}]{window}{, }\item[{}]{file\+\_\+preview}{, }\item[{}]{status\+\_\+label}{, }\item[{}]{button\+\_\+sign\+\_\+document}{, }\item[{}]{button\+\_\+verify\+\_\+signature}{, }\item[{}]{pub\+\_\+key\+\_\+button}{, }\item[{}]{checkbox\+\_\+same\+\_\+folder}{, }\item[{}]{folder\+\_\+label}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Opens a dialog to select a PDF file and displays its path in the widget.
+
+This function allows the user to choose a PDF file, and then updates the file preview widget and the status in the GUI.
+Once both a file and a USB drive are selected, the user can sign or verify the document.
+
+Parameters
+----------
+window : QWidget
+    The main application window used for displaying and interacting with the user interface.
+file_preview : QLabel
+    The label in the user interface that displays the path of the selected PDF file.
+status_label : QLabel
+    The label in the user interface that provides status updates and prompts the user for further actions.
+button_sign_document : QPushButton
+    The button that allows the user to sign the PDF document once both the file and USB drive are selected.
+button_verify_signature : QPushButton
+    The button that allows the user to verify the signature of the PDF document once both the file and USB drive are selected.
+pub_key_button : QPushButton
+    The button to select the public key folder for document signature or verification.
+checkbox_same_folder : QCheckBox
+    The checkbox that determines if the private and public key should be stored in the same folder.
+folder_label: QLabel
+    The label of selected public ket path
+
+Returns
+-------
+None.
+\end{DoxyVerb}
+ \Hypertarget{namespacegui_a5d957512cc1492c270a158112557d93e}\index{gui@{gui}!select\_folder\_priv\_key@{select\_folder\_priv\_key}}
+\index{select\_folder\_priv\_key@{select\_folder\_priv\_key}!gui@{gui}}
+\doxysubsubsection{\texorpdfstring{select\_folder\_priv\_key()}{select\_folder\_priv\_key()}}
+{\footnotesize\ttfamily \label{namespacegui_a5d957512cc1492c270a158112557d93e} 
+gui.\+select\+\_\+folder\+\_\+priv\+\_\+key (\begin{DoxyParamCaption}\item[{}]{usb\+\_\+list}{, }\item[{}]{folder\+\_\+label}{, }\item[{}]{selected\+\_\+folder\+\_\+pub\+\_\+key}{, }\item[{}]{status\+\_\+label}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Selects a USB device for storing the private key.
+
+Retrieves the selected item from the USB device list and saves it as the path
+for the private key. Updates the UI labels accordingly.
+
+If the public key folder has not been selected, the user is prompted to choose one.
+
+Parameters
+----------
+usb_list : QListWidget
+    The list widget displaying available USB devices. The user selects a USB device from this list.
+folder_label : QLabel
+    The label in the user interface that displays the selected folder path for storing the private key.
+selected_folder_pub_key : str
+    The path to the public key folder. If not set, the user is prompted to select one.
+status_label : QLabel
+    The label in the user interface that provides status updates and prompts the user for further actions.
+
+Returns
+-------
+selected_usb_priv_key : str
+    The path of the selected USB device where the private key will be stored.
+\end{DoxyVerb}
+ \Hypertarget{namespacegui_a2aca016b7ac1e60b9b2d8c9c2f5c89d3}\index{gui@{gui}!select\_folder\_pub\_key@{select\_folder\_pub\_key}}
+\index{select\_folder\_pub\_key@{select\_folder\_pub\_key}!gui@{gui}}
+\doxysubsubsection{\texorpdfstring{select\_folder\_pub\_key()}{select\_folder\_pub\_key()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{namespacegui_a2aca016b7ac1e60b9b2d8c9c2f5c89d3} 
+gui.\+select\+\_\+folder\+\_\+pub\+\_\+key (\begin{DoxyParamCaption}\item[{}]{status\+\_\+label}{, }\item[{}]{window}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Selects a folder for storing the public key.
+
+Opens a file dialog allowing the user to select a directory to save the public key.
+Updates the UI labels accordingly.
+
+If the USB device for the private key has not been selected, the user is prompted to do so.
+
+Parameters
+----------
+status_label : QLabel
+    The label in the user interface that provides status updates and prompts the user for further actions.
+window : QWidget
+    The main application window used for displaying and interacting with the user interface.
+
+Returns
+-------
+selected_folder_pub_key : str
+    The path of the folder selected for storing the public key.
+\end{DoxyVerb}
+ \Hypertarget{namespacegui_a103a93c2c1d294284fc924d265cb9634}\index{gui@{gui}!select\_folder\_pub\_key@{select\_folder\_pub\_key}}
+\index{select\_folder\_pub\_key@{select\_folder\_pub\_key}!gui@{gui}}
+\doxysubsubsection{\texorpdfstring{select\_folder\_pub\_key()}{select\_folder\_pub\_key()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{namespacegui_a103a93c2c1d294284fc924d265cb9634} 
+gui.\+select\+\_\+folder\+\_\+pub\+\_\+key (\begin{DoxyParamCaption}\item[{}]{window}{, }\item[{}]{folder\+\_\+pub\+\_\+label}{, }\item[{}]{status\+\_\+label}{, }\item[{}]{selected\+\_\+usb\+\_\+priv\+\_\+key}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Selects a folder for storing the public key.
+
+Opens a file dialog allowing the user to select a directory to save the public key.
+Updates the UI labels accordingly.
+
+If the USB device for the private key has not been selected, the user is prompted to do so.
+
+Parameters
+----------
+window : QWidget
+    The auxiliary application window used for displaying and interacting with the user interface.
+folder_pub_label : QLabel
+    The label in the user interface that displays the selected folder path for storing the public key.
+status_label : QLabel
+    The label in the user interface that provides status updates and prompts the user for further actions.
+selected_usb_priv_key : str
+    The path of the selected USB device for storing the private key. If not selected, the user is prompted to do so.
+
+Returns
+-------
+selected_folder_pub_key : str
+    The path of the selected folder for storing the public key.
+\end{DoxyVerb}
+ \Hypertarget{namespacegui_aadce6e0c2cb48758a3cda4ff98919a25}\index{gui@{gui}!select\_usb\_device@{select\_usb\_device}}
+\index{select\_usb\_device@{select\_usb\_device}!gui@{gui}}
+\doxysubsubsection{\texorpdfstring{select\_usb\_device()}{select\_usb\_device()}}
+{\footnotesize\ttfamily \label{namespacegui_aadce6e0c2cb48758a3cda4ff98919a25} 
+gui.\+select\+\_\+usb\+\_\+device (\begin{DoxyParamCaption}\item[{}]{window}{, }\item[{}]{usb\+\_\+list}{, }\item[{}]{button\+\_\+sign\+\_\+document}{, }\item[{}]{button\+\_\+verify\+\_\+signature}{, }\item[{}]{pub\+\_\+key\+\_\+button}{, }\item[{}]{checkbox\+\_\+same\+\_\+folder}{, }\item[{}]{status\+\_\+label}{, }\item[{}]{folder\+\_\+label}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Handles the selection of a USB device from the list.
+
+This function sets the selected USB device and updates the interface widgets, including enabling the buttons for
+signing and verifying the document. The status is also updated based on the selection.
+
+Parameters
+----------
+window : QWidget
+    The main application window used for displaying and interacting with the user interface.
+usb_list : QListWidget
+    The list widget containing the available USB devices, from which the user selects one.
+button_sign_document : QPushButton
+    The button that allows the user to sign the document, visible once both a PDF file and USB device are selected.
+button_verify_signature : QPushButton
+    The button that allows the user to verify the document's signature, visible once both a PDF file and USB device are selected.
+pub_key_button : QPushButton
+    The button that allows the user to select the public key folder, visible once both a PDF file and USB device are selected.
+checkbox_same_folder : QCheckBox
+    The checkbox that allows the user to specify whether to store both the private and public keys in the same folder.
+status_label : QLabel
+    The label in the user interface that provides status updates and prompts the user for further actions.
+folder_label: QLabel
+    The label of selected public ket path
+
+Returns
+-------
+None.
+\end{DoxyVerb}
+ \Hypertarget{namespacegui_a35d644c254cf52078e9b2adfb91365a6}\index{gui@{gui}!sign\_document@{sign\_document}}
+\index{sign\_document@{sign\_document}!gui@{gui}}
+\doxysubsubsection{\texorpdfstring{sign\_document()}{sign\_document()}}
+{\footnotesize\ttfamily \label{namespacegui_a35d644c254cf52078e9b2adfb91365a6} 
+gui.\+sign\+\_\+document (\begin{DoxyParamCaption}\item[{}]{window}{, }\item[{}]{status\+\_\+label}{, }\item[{}]{app}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Handles the document signing process.
+
+This function opens a dialog to input the PIN, then processes the selected PDF file using the private key from the
+selected USB device. The user interface status is updated during the signing process.
+
+Parameters
+----------
+window : QWidget
+    The main application window used for displaying and interacting with the user interface.
+status_label : QLabel
+    The label in the user interface that provides status updates and prompts the user for further actions.
+app : QApplication
+    The main application instance responsible for managing the application's event loop and updating the interface.
+
+Returns
+-------
+None.
+\end{DoxyVerb}
+ \Hypertarget{namespacegui_a5b26909632aa7c7c044366a2cd06af63}\index{gui@{gui}!signature\_verification@{signature\_verification}}
+\index{signature\_verification@{signature\_verification}!gui@{gui}}
+\doxysubsubsection{\texorpdfstring{signature\_verification()}{signature\_verification()}}
+{\footnotesize\ttfamily \label{namespacegui_a5b26909632aa7c7c044366a2cd06af63} 
+gui.\+signature\+\_\+verification (\begin{DoxyParamCaption}\item[{}]{status\+\_\+label}{, }\item[{}]{app}{, }\item[{}]{checkbox\+\_\+same\+\_\+folder}{, }\item[{}]{window}{, }\item[{}]{selected\+\_\+folder\+\_\+pub\+\_\+key}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Handles the document signature verification process.
+
+This function verifies the electronic signature in the selected PDF document. The result of the verification is displayed
+on the user interface. It returns a message indicating whether the verification was successful or failed.
+
+Parameters
+----------
+status_label : QLabel
+    The label in the user interface that provides status updates and prompts the user for further actions.
+app : QApplication
+    The main application instance responsible for managing the application's event loop and updating the interface.
+checkbox_same_folder : QCheckBox
+    The checkbox indicating whether the public key is located in the same folder as the private key on the USB device.
+window : QWidget
+    The main application window used for displaying and interacting with the user interface.
+selected_folder_pub_key : str
+    The folder path where the public key is located if it was selected by the user.
 
 Returns
 -------
