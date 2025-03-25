@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QFileDialog, \
-    QListWidget, QMessageBox, QTextEdit, QInputDialog, QCheckBox
+    QListWidget, QMessageBox, QTextEdit, QInputDialog, QCheckBox, QLineEdit
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
@@ -46,7 +46,7 @@ def select_folder_pub_key(status_label, window):
     return selected_folder_pub_key
 
 
-def select_file(window, file_preview, status_label, button_sign_document, button_verify_signature, pub_key_button, checkbox_same_folder):
+def select_file(window, file_preview, status_label, button_sign_document, button_verify_signature, pub_key_button, checkbox_same_folder, folder_label):
     """
     Opens a dialog to select a PDF file and displays its path in the widget.
 
@@ -69,6 +69,8 @@ def select_file(window, file_preview, status_label, button_sign_document, button
         The button to select the public key folder for document signature or verification.
     checkbox_same_folder : QCheckBox
         The checkbox that determines if the private and public key should be stored in the same folder.
+    folder_label: QLabel
+        The label of selected public ket path
 
     Returns
     -------
@@ -81,7 +83,15 @@ def select_file(window, file_preview, status_label, button_sign_document, button
         window.selected_file = file_path
         file_preview.setText(f'📜 Wybrany plik: {file_path}')
 
-        if window.selected_file and window.selected_pendrive:
+        if window.selected_file and not checkbox_same_folder.isChecked() and not button_sign_document.isVisible():
+            button_verify_signature.setVisible(True)
+            pub_key_button.setVisible(True)
+            folder_label.setVisible(True)
+        elif window.selected_file and not checkbox_same_folder.isChecked() and button_sign_document.isVisible():
+            button_verify_signature.setVisible(True)
+            pub_key_button.setVisible(True)
+            folder_label.setVisible(True)
+        elif window.selected_file and window.selected_pendrive:
             status_label.setText("Plik PDF i nośnik USB wybrane. Możesz podpisać lub zweryfikować dokument.")
             status_label.setStyleSheet("""
                 font-family: 'Verdana', sans-serif;
@@ -96,9 +106,9 @@ def select_file(window, file_preview, status_label, button_sign_document, button
             button_sign_document.setVisible(True)
             button_verify_signature.setVisible(True)
             pub_key_button.setVisible(True)
-            checkbox_same_folder.setVisible(True)
-        else:
-            status_label.setText("Plik PDF wybrany. Wybierz nośnik USB.")
+            folder_label.setVisible(True)
+        elif window.selected_file:
+            status_label.setText("Plik PDF wybrany.")
             status_label.setStyleSheet("""
                 font-family: 'Verdana', sans-serif;
                 font-size: 14px;
@@ -112,10 +122,15 @@ def select_file(window, file_preview, status_label, button_sign_document, button
             button_sign_document.setVisible(False)
             button_verify_signature.setVisible(False)
             pub_key_button.setVisible(False)
-            checkbox_same_folder.setVisible(False)
+            folder_label.setVisible(False)
+        else:
+            button_verify_signature.setVisible(False)
+            pub_key_button.setVisible(False)
+            folder_label.setVisible(False)
+            button_sign_document.setVisible(False)
 
 
-def refresh_usb(status_label, app, usb_list, window, button_sign_document, button_verify_signature, pub_key_button, checkbox_same_folder):
+def refresh_usb(status_label, app, usb_list, window, button_sign_document, checkbox_same_folder, button_verify_signature, pub_key_button, folder_label):
     """
     Refreshes the list of detected USB devices.
 
@@ -135,18 +150,19 @@ def refresh_usb(status_label, app, usb_list, window, button_sign_document, butto
         The main application window used for displaying and interacting with the user interface.
     button_sign_document : QPushButton
         The button that allows the user to sign the document, visible once a USB device is selected.
-    button_verify_signature : QPushButton
-        The button that allows the user to verify the signature on the document, visible once a USB device is selected.
     pub_key_button : QPushButton
-        The button that allows the user to select the folder for the public key, visible once a USB device is selected.
+        The button to select the public key folder for document signature or verification.
     checkbox_same_folder : QCheckBox
-        The checkbox that allows the user to decide if both private and public keys should be stored in the same folder.
+        The checkbox that determines if the private and public key should be stored in the same folder.
+    folder_label: QLabel
+        The label of selected public ket path
+    button_verify_signature : QPushButton
+        The button that allows the user to verify the signature of the PDF document once both the file and USB drive are selected.
 
     Returns
     -------
     None.
     """
-
     status_label.setText("Wyszukiwanie nośników USB...")
     status_label.setStyleSheet("""
         font-family: 'Verdana', sans-serif;
@@ -190,11 +206,13 @@ def refresh_usb(status_label, app, usb_list, window, button_sign_document, butto
         """)
     window.selected_pendrive = None
     button_sign_document.setVisible(False)
-    button_verify_signature.setVisible(False)
-    pub_key_button.setVisible(False)
-    checkbox_same_folder.setVisible(False)
+    if checkbox_same_folder.isChecked():
+        button_verify_signature.setVisible(False)
+        pub_key_button.setVisible(False)
+        folder_label.setVisible(False)
 
-def select_usb_device(window, usb_list, button_sign_document, button_verify_signature, pub_key_button, checkbox_same_folder, status_label):
+
+def select_usb_device(window, usb_list, button_sign_document, button_verify_signature, pub_key_button, checkbox_same_folder, status_label, folder_label):
     """
     Handles the selection of a USB device from the list.
 
@@ -217,6 +235,8 @@ def select_usb_device(window, usb_list, button_sign_document, button_verify_sign
         The checkbox that allows the user to specify whether to store both the private and public keys in the same folder.
     status_label : QLabel
         The label in the user interface that provides status updates and prompts the user for further actions.
+    folder_label: QLabel
+        The label of selected public ket path
 
     Returns
     -------
@@ -225,51 +245,55 @@ def select_usb_device(window, usb_list, button_sign_document, button_verify_sign
     window.selected_pendrive = usb_list.currentItem().text()
 
     if window.selected_file and window.selected_pendrive:
-        button_sign_document.setVisible(True)
         button_verify_signature.setVisible(True)
         pub_key_button.setVisible(True)
-        checkbox_same_folder.setVisible(True)
+        folder_label.setVisible(True)
+        button_sign_document.setVisible(True)
         status_label.setText("Plik PDF i nośnik USB wybrane. Możesz podpisać lub zweryfikować dokument.")
         status_label.setStyleSheet("""
-            font-family: 'Verdana', sans-serif;
-            font-size: 14px;
-            color: #006600;
-            padding: 5px;
-            border-radius: 5px;
-            background-color: #E6FFE6;
-            margin-top: 10px;
-            font-weight: normal;
-        """)
-    else:
-        button_sign_document.setVisible(False)
-        button_verify_signature.setVisible(False)
-        pub_key_button.setVisible(False)
-        checkbox_same_folder.setVisible(False)
+                   font-family: 'Verdana', sans-serif;
+                   font-size: 14px;
+                   color: #006600;
+                   padding: 5px;
+                   border-radius: 5px;
+                   background-color: #E6FFE6;
+                   margin-top: 10px;
+                   font-weight: normal;
+               """)
+    # else:
+    #     button_verify_signature.setVisible(False)
+    #     pub_key_button.setVisible(False)
+    #     folder_label.setVisible(False)
+    elif window.selected_file and checkbox_same_folder.isChecked():
+        status_label.setText("Wybierz nośnik USB")
+        status_label.setStyleSheet("""
+                          font-family: 'Verdana', sans-serif;
+                          font-size: 14px;
+                          color: #006600;
+                          padding: 5px;
+                          border-radius: 5px;
+                          background-color: #E6FFE6;
+                          margin-top: 10px;
+                          font-weight: normal;
+                      """)
 
-        if window.selected_pendrive:
-            status_label.setText("Nośnik USB wybrany. Wybierz plik PDF.")
-            status_label.setStyleSheet("""
-                font-family: 'Verdana', sans-serif;
-                font-size: 14px;
-                color: #0066CC;
-                padding: 5px;
-                border-radius: 5px;
-                background-color: #E6F2FF;
-                margin-top: 10px;
-                font-weight: normal;
-            """)
-        else:
-            status_label.setText("Wybierz plik PDF i nośnik USB.")
-            status_label.setStyleSheet("""
-                font-family: 'Verdana', sans-serif;
-                font-size: 14px;
-                color: #0066CC;
-                padding: 5px;
-                border-radius: 5px;
-                background-color: #E6F2FF;
-                margin-top: 10px;
-                font-weight: normal;
-            """)
+    elif window.selected_file and not checkbox_same_folder.isChecked():
+        button_sign_document.setVisible(False)
+        button_verify_signature.setVisible(True)
+        pub_key_button.setVisible(True)
+        folder_label.setVisible(True)
+    elif window.selected_pendrive:
+        status_label.setText("Nośnik USB wybrany. Wybierz plik PDF.")
+        status_label.setStyleSheet("""
+                       font-family: 'Verdana', sans-serif;
+                       font-size: 14px;
+                       color: #0066CC;
+                       padding: 5px;
+                       border-radius: 5px;
+                       background-color: #E6F2FF;
+                       margin-top: 10px;
+                       font-weight: normal;
+                   """)
 
 
 def sign_document(window, status_label, app):
@@ -292,7 +316,8 @@ def sign_document(window, status_label, app):
     -------
     None.
     """
-    pin, ok = QInputDialog.getText(window, 'Wprowadź PIN', 'Podaj PIN do klucza:')
+
+    pin, ok = QInputDialog.getText(window, 'Wprowadź PIN', 'Podaj PIN do klucza:', QLineEdit.EchoMode.Password)
 
     if ok and pin:
         try:
@@ -308,6 +333,7 @@ def sign_document(window, status_label, app):
                 font-weight: normal;
             """)
             app.processEvents()
+
 
             pin = str(pin)
             mess = sign_pdf(window.selected_pendrive, window.selected_file, pin)
@@ -400,7 +426,9 @@ def signature_verification(status_label, app, checkbox_same_folder, window, sele
         """)
         app.processEvents()
 
-        if checkbox_same_folder.isChecked():
+        if not window.selected_file:
+            mess = "Wybierz plik"
+        elif checkbox_same_folder.isChecked():
             public_key = find_public_key(window.selected_pendrive)
             if not public_key:
                 mess = f"Nie znaleziono klucza publicznego w {window.selected_pendrive}"
@@ -488,17 +516,32 @@ def create_gui():
 
     checkbox_same_folder = QCheckBox("Czy klucz publiczny i prywatny znajdują się w tym samym folderze?", window)
     checkbox_same_folder.setChecked(True)
-    checkbox_same_folder.setVisible(False)
 
     selected_folder_pub_key = ""
 
     def handle_checkbox_change():
         if checkbox_same_folder.isChecked():
-            pub_key_button.setDisabled(True)
+            if not button_sign_document.isVisible():
+                button_verify_signature.setVisible(False)
+                pub_key_button.setVisible(False)
+                folder_label.setVisible(False)
+            else:
+                pub_key_button.setDisabled(True)
+                button_verify_signature.setVisible(True)
+                pub_key_button.setVisible(True)
+                folder_label.setVisible(True)
         else:
-            pub_key_button.setDisabled(False)
+            if not button_sign_document.isVisible():
+                button_verify_signature.setVisible(True)
+                pub_key_button.setVisible(True)
+                folder_label.setVisible(True)
+            else:
+                pub_key_button.setDisabled(False)
+                button_verify_signature.setVisible(True)
+                pub_key_button.setVisible(True)
+                folder_label.setVisible(True)
 
-    button_select_file.clicked.connect(lambda: select_file(window, file_preview, status_label, button_sign_document, button_verify_signature, pub_key_button, checkbox_same_folder))
+    button_select_file.clicked.connect(lambda: select_file(window, file_preview, status_label, button_sign_document, button_verify_signature, pub_key_button, checkbox_same_folder, folder_label))
     checkbox_same_folder.clicked.connect(handle_checkbox_change)
 
     left_layout = QVBoxLayout()
@@ -510,7 +553,7 @@ def create_gui():
     usb_list.setSelectionMode(QListWidget.SingleSelection)
     button_refresh_usb = QPushButton('🔄 Odśwież listę USB', window)
 
-    button_refresh_usb.clicked.connect(lambda: refresh_usb(status_label, app, usb_list, window, button_sign_document, button_verify_signature, pub_key_button, checkbox_same_folder))
+    button_refresh_usb.clicked.connect(lambda: refresh_usb(status_label, app, usb_list, window, button_sign_document, checkbox_same_folder, button_verify_signature, pub_key_button, folder_label))
 
     button_sign_document = QPushButton('Podpisz dokument', window)
     button_sign_document.setVisible(False)
@@ -520,14 +563,21 @@ def create_gui():
 
     pub_key_button = QPushButton('Wybierz folder z kluczem publicznym', window)
     pub_key_button.setVisible(False)
-    pub_key_button.setDisabled(True)
 
-    usb_list.itemClicked.connect(lambda: select_usb_device(window, usb_list, button_sign_document, button_verify_signature, pub_key_button, checkbox_same_folder, status_label))
+    folder_label = QLabel("Ścieżka folderu: Nie wybrano", window)
+    folder_label.setStyleSheet("""
+                font-size: 10px;
+            """)
+    folder_label.setVisible(False)
+
+
+    usb_list.itemClicked.connect(lambda: select_usb_device(window, usb_list, button_sign_document, button_verify_signature, pub_key_button, checkbox_same_folder, status_label, folder_label))
     button_sign_document.clicked.connect(lambda: sign_document(window, status_label, app))
 
     def select_folder_priv_pub_clicked():
         nonlocal selected_folder_pub_key
         selected_folder_pub_key = select_folder_pub_key(status_label, window)
+        folder_label.setText(f"Ścieżka wybranego folderu: {selected_folder_pub_key}")
 
     button_verify_signature.clicked.connect(lambda: signature_verification(status_label, app, checkbox_same_folder, window, selected_folder_pub_key))
     pub_key_button.clicked.connect(select_folder_priv_pub_clicked)
@@ -539,6 +589,7 @@ def create_gui():
     right_layout.addWidget(button_sign_document)
     right_layout.addWidget(button_verify_signature)
     right_layout.addWidget(pub_key_button)
+    right_layout.addWidget(folder_label)
 
     main_layout = QHBoxLayout()
     main_layout.addLayout(left_layout)

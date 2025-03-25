@@ -15,11 +15,11 @@
 \item 
 \mbox{\hyperlink{namespacegui_a2aca016b7ac1e60b9b2d8c9c2f5c89d3}{select\+\_\+folder\+\_\+pub\+\_\+key}} (status\+\_\+label, window)
 \item 
-\mbox{\hyperlink{namespacegui_a5d6cc34b731a4d19b7ae3bcc13852f47}{select\+\_\+file}} (window, file\+\_\+preview, status\+\_\+label, button\+\_\+sign\+\_\+document, button\+\_\+verify\+\_\+signature, pub\+\_\+key\+\_\+button, checkbox\+\_\+same\+\_\+folder)
+\mbox{\hyperlink{namespacegui_a6a09c1ed95ea4d030ece6d6d2eca120f}{select\+\_\+file}} (window, file\+\_\+preview, status\+\_\+label, button\+\_\+sign\+\_\+document, button\+\_\+verify\+\_\+signature, pub\+\_\+key\+\_\+button, checkbox\+\_\+same\+\_\+folder, folder\+\_\+label)
 \item 
-\mbox{\hyperlink{namespacegui_a25c790f1f4290938f3436b93303004fc}{refresh\+\_\+usb}} (status\+\_\+label, app, usb\+\_\+list, window, button\+\_\+sign\+\_\+document, button\+\_\+verify\+\_\+signature, pub\+\_\+key\+\_\+button, checkbox\+\_\+same\+\_\+folder)
+\mbox{\hyperlink{namespacegui_a16f0f1afb5c287322c80a001a20e80af}{refresh\+\_\+usb}} (status\+\_\+label, app, usb\+\_\+list, window, button\+\_\+sign\+\_\+document, checkbox\+\_\+same\+\_\+folder, button\+\_\+verify\+\_\+signature, pub\+\_\+key\+\_\+button, folder\+\_\+label)
 \item 
-\mbox{\hyperlink{namespacegui_ac86959e4a2be94b0814aab448499ae7d}{select\+\_\+usb\+\_\+device}} (window, usb\+\_\+list, button\+\_\+sign\+\_\+document, button\+\_\+verify\+\_\+signature, pub\+\_\+key\+\_\+button, checkbox\+\_\+same\+\_\+folder, status\+\_\+label)
+\mbox{\hyperlink{namespacegui_aadce6e0c2cb48758a3cda4ff98919a25}{select\+\_\+usb\+\_\+device}} (window, usb\+\_\+list, button\+\_\+sign\+\_\+document, button\+\_\+verify\+\_\+signature, pub\+\_\+key\+\_\+button, checkbox\+\_\+same\+\_\+folder, status\+\_\+label, folder\+\_\+label)
 \item 
 \mbox{\hyperlink{namespacegui_a35d644c254cf52078e9b2adfb91365a6}{sign\+\_\+document}} (window, status\+\_\+label, app)
 \item 
@@ -96,11 +96,11 @@ Returns
 -------
 None
 \end{DoxyVerb}
- \Hypertarget{namespacegui_a25c790f1f4290938f3436b93303004fc}\index{gui@{gui}!refresh\_usb@{refresh\_usb}}
+ \Hypertarget{namespacegui_a16f0f1afb5c287322c80a001a20e80af}\index{gui@{gui}!refresh\_usb@{refresh\_usb}}
 \index{refresh\_usb@{refresh\_usb}!gui@{gui}}
 \doxysubsubsection{\texorpdfstring{refresh\_usb()}{refresh\_usb()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily \label{namespacegui_a25c790f1f4290938f3436b93303004fc} 
-gui.\+refresh\+\_\+usb (\begin{DoxyParamCaption}\item[{}]{status\+\_\+label}{, }\item[{}]{app}{, }\item[{}]{usb\+\_\+list}{, }\item[{}]{window}{, }\item[{}]{button\+\_\+sign\+\_\+document}{, }\item[{}]{button\+\_\+verify\+\_\+signature}{, }\item[{}]{pub\+\_\+key\+\_\+button}{, }\item[{}]{checkbox\+\_\+same\+\_\+folder}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{namespacegui_a16f0f1afb5c287322c80a001a20e80af} 
+gui.\+refresh\+\_\+usb (\begin{DoxyParamCaption}\item[{}]{status\+\_\+label}{, }\item[{}]{app}{, }\item[{}]{usb\+\_\+list}{, }\item[{}]{window}{, }\item[{}]{button\+\_\+sign\+\_\+document}{, }\item[{}]{checkbox\+\_\+same\+\_\+folder}{, }\item[{}]{button\+\_\+verify\+\_\+signature}{, }\item[{}]{pub\+\_\+key\+\_\+button}{, }\item[{}]{folder\+\_\+label}{}\end{DoxyParamCaption})}
 
 \begin{DoxyVerb}Refreshes the list of detected USB devices.
 
@@ -120,12 +120,14 @@ window : QWidget
     The main application window used for displaying and interacting with the user interface.
 button_sign_document : QPushButton
     The button that allows the user to sign the document, visible once a USB device is selected.
-button_verify_signature : QPushButton
-    The button that allows the user to verify the signature on the document, visible once a USB device is selected.
 pub_key_button : QPushButton
-    The button that allows the user to select the folder for the public key, visible once a USB device is selected.
+    The button to select the public key folder for document signature or verification.
 checkbox_same_folder : QCheckBox
-    The checkbox that allows the user to decide if both private and public keys should be stored in the same folder.
+    The checkbox that determines if the private and public key should be stored in the same folder.
+folder_label: QLabel
+    The label of selected public ket path
+button_verify_signature : QPushButton
+    The button that allows the user to verify the signature of the PDF document once both the file and USB drive are selected.
 
 Returns
 -------
@@ -158,11 +160,11 @@ Returns
 -------
 None.
 \end{DoxyVerb}
- \Hypertarget{namespacegui_a5d6cc34b731a4d19b7ae3bcc13852f47}\index{gui@{gui}!select\_file@{select\_file}}
+ \Hypertarget{namespacegui_a6a09c1ed95ea4d030ece6d6d2eca120f}\index{gui@{gui}!select\_file@{select\_file}}
 \index{select\_file@{select\_file}!gui@{gui}}
 \doxysubsubsection{\texorpdfstring{select\_file()}{select\_file()}}
-{\footnotesize\ttfamily \label{namespacegui_a5d6cc34b731a4d19b7ae3bcc13852f47} 
-gui.\+select\+\_\+file (\begin{DoxyParamCaption}\item[{}]{window}{, }\item[{}]{file\+\_\+preview}{, }\item[{}]{status\+\_\+label}{, }\item[{}]{button\+\_\+sign\+\_\+document}{, }\item[{}]{button\+\_\+verify\+\_\+signature}{, }\item[{}]{pub\+\_\+key\+\_\+button}{, }\item[{}]{checkbox\+\_\+same\+\_\+folder}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{namespacegui_a6a09c1ed95ea4d030ece6d6d2eca120f} 
+gui.\+select\+\_\+file (\begin{DoxyParamCaption}\item[{}]{window}{, }\item[{}]{file\+\_\+preview}{, }\item[{}]{status\+\_\+label}{, }\item[{}]{button\+\_\+sign\+\_\+document}{, }\item[{}]{button\+\_\+verify\+\_\+signature}{, }\item[{}]{pub\+\_\+key\+\_\+button}{, }\item[{}]{checkbox\+\_\+same\+\_\+folder}{, }\item[{}]{folder\+\_\+label}{}\end{DoxyParamCaption})}
 
 \begin{DoxyVerb}Opens a dialog to select a PDF file and displays its path in the widget.
 
@@ -185,6 +187,8 @@ pub_key_button : QPushButton
     The button to select the public key folder for document signature or verification.
 checkbox_same_folder : QCheckBox
     The checkbox that determines if the private and public key should be stored in the same folder.
+folder_label: QLabel
+    The label of selected public ket path
 
 Returns
 -------
@@ -273,11 +277,11 @@ Returns
 selected_folder_pub_key : str
     The path of the selected folder for storing the public key.
 \end{DoxyVerb}
- \Hypertarget{namespacegui_ac86959e4a2be94b0814aab448499ae7d}\index{gui@{gui}!select\_usb\_device@{select\_usb\_device}}
+ \Hypertarget{namespacegui_aadce6e0c2cb48758a3cda4ff98919a25}\index{gui@{gui}!select\_usb\_device@{select\_usb\_device}}
 \index{select\_usb\_device@{select\_usb\_device}!gui@{gui}}
 \doxysubsubsection{\texorpdfstring{select\_usb\_device()}{select\_usb\_device()}}
-{\footnotesize\ttfamily \label{namespacegui_ac86959e4a2be94b0814aab448499ae7d} 
-gui.\+select\+\_\+usb\+\_\+device (\begin{DoxyParamCaption}\item[{}]{window}{, }\item[{}]{usb\+\_\+list}{, }\item[{}]{button\+\_\+sign\+\_\+document}{, }\item[{}]{button\+\_\+verify\+\_\+signature}{, }\item[{}]{pub\+\_\+key\+\_\+button}{, }\item[{}]{checkbox\+\_\+same\+\_\+folder}{, }\item[{}]{status\+\_\+label}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{namespacegui_aadce6e0c2cb48758a3cda4ff98919a25} 
+gui.\+select\+\_\+usb\+\_\+device (\begin{DoxyParamCaption}\item[{}]{window}{, }\item[{}]{usb\+\_\+list}{, }\item[{}]{button\+\_\+sign\+\_\+document}{, }\item[{}]{button\+\_\+verify\+\_\+signature}{, }\item[{}]{pub\+\_\+key\+\_\+button}{, }\item[{}]{checkbox\+\_\+same\+\_\+folder}{, }\item[{}]{status\+\_\+label}{, }\item[{}]{folder\+\_\+label}{}\end{DoxyParamCaption})}
 
 \begin{DoxyVerb}Handles the selection of a USB device from the list.
 
@@ -300,6 +304,8 @@ checkbox_same_folder : QCheckBox
     The checkbox that allows the user to specify whether to store both the private and public keys in the same folder.
 status_label : QLabel
     The label in the user interface that provides status updates and prompts the user for further actions.
+folder_label: QLabel
+    The label of selected public ket path
 
 Returns
 -------
