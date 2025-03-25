@@ -184,7 +184,7 @@ def generate_rsa(status_label, selected_usb_priv_key, selected_folder_pub_key, a
     """
     pin = pin_input.text()
 
-    if not pin.isdigit():
+    if pin and not pin.isdigit():
         status_label.setText("Błąd! PIN musi składać się tylko z cyfr.")
         status_label.setStyleSheet("""
             QLabel {
